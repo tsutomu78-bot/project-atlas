@@ -1,0 +1,45 @@
+rules_version = '2';
+
+// See ARCHITECTURE.md §3 and TASKS.md ATLAS-004 in the Obsidian vault.
+// Model: shared catalog data (products/prices) is read-only to signed-in
+// clients and written only by trusted backend processes (Cloud Functions /
+// admin SDK using a service account, which bypasses these rules entirely).
+// Per-user data (favorites, shoppingList, scanHistory) is owned exclusively
+// by that user — no client, however authenticated, may touch another
+// user's data.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Shared catalog — retailer-independent product identification.
+    match /products/{productId} {
+      allow read: if request.auth != null;
+      allow write: if false; // populated by backend/connector jobs only
+
+      // Per-connector prices — same read-only-to-clients model.
+      match /prices/{connectorId} {
+        allow read: if request.auth != null;
+        allow write: if false;
+      }
+    }
+
+    // Per-user data — strictly owner-only, both directions.
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+
+      match /favorites/{productId} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+      match /shoppingList/{productId} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+      match /scanHistory/{entryId} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+    }
+
+    // Deny everything else by default.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
