@@ -11,6 +11,9 @@ initializeApp();
 const krogerClientId = defineSecret("KROGER_CLIENT_ID");
 const krogerClientSecret = defineSecret("KROGER_CLIENT_SECRET");
 
+// Certification environment — matches the app's registration at
+// developer.kroger.com (App Details → Environment: Certification, verified
+// 2026-07-04). Production would be api.kroger.com with separate credentials.
 const KROGER_TOKEN_URL = "https://api-ce.kroger.com/v1/connect/oauth2/token";
 const KROGER_PRODUCTS_URL = "https://api-ce.kroger.com/v1/products";
 
@@ -47,6 +50,11 @@ async function getKrogerToken(clientId: string, clientSecret: string): Promise<s
 export const lookupKrogerPrice = onCall(
   {secrets: [krogerClientId, krogerClientSecret]},
   async (request) => {
+    // Signed-in users only (anonymous counts) — otherwise anyone on the
+    // internet can burn Kroger quota and write into the shared catalog.
+    if (!request.auth) {
+      throw new HttpsError("unauthenticated", "Sign in to look up prices.");
+    }
     const {productId, upc, locationId} = request.data as {
       productId?: string;
       upc?: string;
