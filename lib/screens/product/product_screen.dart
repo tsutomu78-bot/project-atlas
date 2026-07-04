@@ -1,24 +1,96 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../models/favorite.dart';
 import '../../models/price_info.dart';
 import '../../models/result.dart';
 import '../../providers.dart';
+import '../scan/scan_screen.dart';
 
-/// The core value screen. Reads prices through PriceRepository (currently
-/// mock-backed — see providers.dart) so the UI is already built against the
-/// real architecture: per-connector loading, confidence display, and
-/// graceful failure per ARCHITECTURE.md §5–6b.
-class ProductScreen extends ConsumerWidget {
+/// The core value screen. Reads prices through PriceRepository so the UI is
+/// already built against the real architecture: per-connector loading,
+/// confidence display, and graceful failure per ARCHITECTURE.md §5–6b.
+/// Until the camera exists (ATLAS-005) the product shown is the simulated
+/// scan's UPC.
+class ProductScreen extends ConsumerStatefulWidget {
   const ProductScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final pricesFuture = ref.watch(priceRepositoryProvider).pricesForUpc('000000000000');
+  ConsumerState<ProductScreen> createState() => _ProductScreenState();
+}
 
+class _ProductScreenState extends ConsumerState<ProductScreen> {
+  static const _productId = ScanScreen.simulatedUpc;
+
+  late final Future<List<Result<PriceInfo>>> _pricesFuture =
+      ref.read(priceRepositoryProvider).pricesForUpc(_productId);
+  bool _isFavorite = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadFavoriteState();
+  }
+
+  Future<void> _loadFavoriteState() async {
+    final uid = ref.read(currentUserIdProvider);
+    if (uid == null) return;
+    final favorites = await ref.read(favoritesRepositoryProvider).list(uid);
+    if (favorites case Success(value: final List<Favorite> items)) {
+      if (mounted) {
+        setState(() => _isFavorite = items.any((f) => f.productId == _productId));
+      }
+    }
+  }
+
+  Future<void> _toggleFavorite() async {
+    final uid = ref.read(currentUserIdProvider);
+    if (uid == null) return _requireSignIn();
+    final repo = ref.read(favoritesRepositoryProvider);
+    final result = _isFavorite
+        ? await repo.remove(uid, _productId)
+        : await repo.add(uid, _productId);
+    if (!mounted) return;
+    if (result is Success) {
+      setState(() => _isFavorite = !_isFavorite);
+    } else {
+      _showSnack('Could not update favorites. Try again.');
+    }
+  }
+
+  Future<void> _addToList() async {
+    final uid = ref.read(currentUserIdProvider);
+    if (uid == null) return _requireSignIn();
+    final result =
+        await ref.read(shoppingListRepositoryProvider).add(uid, _productId);
+    if (!mounted) return;
+    _showSnack(result is Success
+        ? 'Added to your shopping list.'
+        : 'Could not add to the list. Try again.');
+  }
+
+  void _requireSignIn() => _showSnack('Sign in to save products.');
+
+  void _showSnack(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // On a deep link the first auth emission can arrive after initState —
+    // re-run the favorite lookup once the uid actually exists.
+    ref.listen(currentUserIdProvider, (previous, next) {
+      if (previous == null && next != null) _loadFavoriteState();
+    });
     return Scaffold(
       appBar: AppBar(
         title: const Text('Product'),
-        actions: [IconButton(icon: const Icon(Icons.favorite_outline), onPressed: () {})],
+        actions: [
+          IconButton(
+            icon: Icon(_isFavorite ? Icons.favorite : Icons.favorite_outline),
+            tooltip: _isFavorite ? 'Remove from favorites' : 'Add to favorites',
+            onPressed: _toggleFavorite,
+          ),
+        ],
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
@@ -42,7 +114,7 @@ class ProductScreen extends ConsumerWidget {
           const Text('Compare across stores', style: TextStyle(fontSize: 12)),
           const SizedBox(height: 8),
           FutureBuilder<List<Result<PriceInfo>>>(
-            future: pricesFuture,
+            future: _pricesFuture,
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return const Padding(
@@ -57,7 +129,7 @@ class ProductScreen extends ConsumerWidget {
           ),
           const SizedBox(height: 16),
           FilledButton.icon(
-            onPressed: () {},
+            onPressed: _addToList,
             icon: const Icon(Icons.add),
             label: const Text('Add to list'),
           ),
