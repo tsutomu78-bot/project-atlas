@@ -1,22 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../providers.dart';
 import '../../routing/app_router.dart';
 
-/// No user decisions here — auto-routes to Home or Login.
-/// MVP placeholder: routes straight to Home (auth not implemented yet).
-class LaunchScreen extends StatefulWidget {
+/// No user decisions here — auto-routes to Home (already signed in,
+/// including a restored anonymous session) or Login.
+class LaunchScreen extends ConsumerStatefulWidget {
   const LaunchScreen({super.key});
 
   @override
-  State<LaunchScreen> createState() => _LaunchScreenState();
+  ConsumerState<LaunchScreen> createState() => _LaunchScreenState();
 }
 
-class _LaunchScreenState extends State<LaunchScreen> {
+class _LaunchScreenState extends ConsumerState<LaunchScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(milliseconds: 800), () {
-      if (mounted) Navigator.of(context).pushReplacementNamed(AppRoutes.home);
-    });
+    Future.delayed(const Duration(milliseconds: 800), _route);
+  }
+
+  Future<void> _route() async {
+    if (!mounted) return;
+    // First stream event = Firebase has finished restoring any persisted
+    // session, so this never misroutes a returning user to Login.
+    final user = await ref.read(authRepositoryProvider).authStateChanges().first;
+    if (!mounted) return;
+    Navigator.of(context)
+        .pushReplacementNamed(user != null ? AppRoutes.home : AppRoutes.login);
   }
 
   @override
