@@ -64,7 +64,9 @@ export const lookupKrogerPrice = onCall(
       throw new HttpsError("invalid-argument", "productId, upc, and locationId are required.");
     }
 
-    const token = await getKrogerToken(krogerClientId.value(), krogerClientSecret.value());
+    // trim(): secrets set via piped stdin carry a trailing newline, which
+    // silently corrupts the Basic auth header (Kroger returns 401).
+    const token = await getKrogerToken(krogerClientId.value().trim(), krogerClientSecret.value().trim());
     const res = await fetch(
       `${KROGER_PRODUCTS_URL}?filter.term=${encodeURIComponent(upc)}&filter.locationId=${encodeURIComponent(locationId)}`,
       {headers: {Authorization: `Bearer ${token}`}}
@@ -76,6 +78,7 @@ export const lookupKrogerPrice = onCall(
     if (!res.ok) {
       // Fail gracefully — record that Kroger had no current data rather
       // than throwing, so the client's normal "unavailable" path handles it.
+      console.error(`Kroger products request failed: ${res.status} ${await res.text()}`);
       await priceDoc.set({
         source: "Kroger",
         availability: "unknown",
