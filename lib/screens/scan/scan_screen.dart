@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers.dart';
@@ -11,7 +13,8 @@ class ScanScreen extends ConsumerWidget {
 
   /// Until the camera exists (ATLAS-005), simulated scans use this UPC so the
   /// whole pipeline (history, product, prices) exercises one consistent id.
-  static const simulatedUpc = '000000000000';
+  /// Real cert-env UPC (Simple Truth Organic Whole Milk) so Kroger finds it.
+  static const simulatedUpc = '0001111042850';
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -34,11 +37,16 @@ class ScanScreen extends ConsumerWidget {
             // Temporary: simulate a successful scan until camera is wired up.
             ElevatedButton(
               onPressed: () {
-                // Record history best-effort — a failed write must never
-                // block the scan → product flow (fail gracefully).
+                // Record history and trigger a fresh price lookup
+                // best-effort — a failed write must never block the scan →
+                // product flow (fail gracefully).
                 if (uid != null) {
                   ref.read(scanHistoryRepositoryProvider).record(uid, simulatedUpc);
                 }
+                unawaited(ref.read(krogerConnectorProvider).refreshPrice(
+                      productId: simulatedUpc,
+                      upc: simulatedUpc,
+                    ));
                 Navigator.of(context).pushNamed(AppRoutes.product);
               },
               child: const Text('Simulate scan (dev only)'),

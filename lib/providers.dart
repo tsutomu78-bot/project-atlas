@@ -8,9 +8,18 @@ import 'repositories/scan_history_repository.dart';
 import 'repositories/firestore_product_repository.dart';
 import 'repositories/firestore_price_repository.dart';
 import 'repositories/firestore_user_data_repositories.dart';
+import 'connectors/kroger_connector.dart';
 
 /// Dependency wiring lives here, nowhere else. Screens read these providers
 /// and stay ignorant of which implementation is behind them.
+
+/// Fred Meyer Bellevue (cert env) — dev default until a Settings
+/// store-location picker exists (later ticket).
+const defaultKrogerLocationId = '70100023';
+
+final krogerConnectorProvider = Provider(
+  (ref) => KrogerConnector(defaultLocationId: defaultKrogerLocationId),
+);
 
 final authRepositoryProvider = Provider<AuthRepository>(
   (ref) => FirebaseAuthRepository(),

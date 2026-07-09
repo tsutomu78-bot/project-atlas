@@ -15,6 +15,7 @@ import 'package:project_atlas/screens/scan/scan_screen.dart';
 import 'package:project_atlas/screens/shopping_list/shopping_list_screen.dart';
 
 import 'fake_auth_repository.dart';
+import 'fake_kroger_connector.dart';
 import 'fake_user_data_repositories.dart';
 
 const _user = AppUser(uid: 'u1', isAnonymous: true);
@@ -25,6 +26,7 @@ Widget harness({
   FakeFavoritesRepository? favorites,
   FakeShoppingListRepository? shoppingList,
   FakeScanHistoryRepository? history,
+  FakeKrogerConnector? kroger,
 }) {
   return ProviderScope(
     overrides: [
@@ -35,6 +37,7 @@ Widget harness({
           .overrideWithValue(shoppingList ?? FakeShoppingListRepository()),
       scanHistoryRepositoryProvider
           .overrideWithValue(history ?? FakeScanHistoryRepository()),
+      krogerConnectorProvider.overrideWithValue(kroger ?? FakeKrogerConnector()),
     ],
     child: MaterialApp(
       home: home,
@@ -114,11 +117,13 @@ void main() {
   });
 
   group('ScanScreen', () {
-    testWidgets('simulate scan records history', (tester) async {
+    testWidgets('simulate scan records history and refreshes price', (tester) async {
       final repo = FakeScanHistoryRepository();
+      final kroger = FakeKrogerConnector();
       await tester.pumpWidget(harness(
         home: const ScanScreen(),
         history: repo,
+        kroger: kroger,
       ));
       await tester.pumpAndSettle();
 
@@ -127,6 +132,10 @@ void main() {
 
       expect(repo.entries, hasLength(1));
       expect(repo.entries.single.productId, ScanScreen.simulatedUpc);
+
+      expect(kroger.calls, hasLength(1));
+      expect(kroger.calls.single.productId, ScanScreen.simulatedUpc);
+      expect(kroger.calls.single.upc, ScanScreen.simulatedUpc);
     });
   });
 }

@@ -69,7 +69,16 @@ export const lookupKrogerPrice = onCall(
     const token = await getKrogerToken(krogerClientId.value().trim(), krogerClientSecret.value().trim());
     const res = await fetch(
       `${KROGER_PRODUCTS_URL}?filter.term=${encodeURIComponent(upc)}&filter.locationId=${encodeURIComponent(locationId)}`,
-      {headers: {Authorization: `Bearer ${token}`}}
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+          // Kroger's cert-env edge (Akamai) 403s requests carrying Node's
+          // default fetch user-agent — a browser-like UA clears it.
+          "User-Agent":
+            "Mozilla/5.0 (compatible; ProjectAtlas/1.0; +https://project-atlas-529bf.web.app)",
+        },
+      }
     );
 
     const db = getFirestore();
@@ -88,11 +97,32 @@ export const lookupKrogerPrice = onCall(
     }
 
     const data = (await res.json()) as {
-      data?: Array<{items?: Array<{price?: {regular?: number}; inventory?: {stockLevel?: string}}>}>;
+      data?: Array<{
+        description?: string;
+        brand?: string;
+        images?: Array<{sizes?: Array<{size?: string; url?: string}>}>;
+        items?: Array<{price?: {regular?: number}; inventory?: {stockLevel?: string}}>;
+      }>;
     };
-    const item = data.data?.[0]?.items?.[0];
+    const product = data.data?.[0];
+    const item = product?.items?.[0];
     const price = item?.price?.regular ?? null;
     const stockLevel = item?.inventory?.stockLevel;
+    const imageUrl = product?.images?.[0]?.sizes?.[0]?.url;
+
+    // Catalog writes are backend-only per firestore.rules — this is the one
+    // place the products/{id} doc gets seeded, piggybacking on the same
+    // Kroger response so no extra API call is needed.
+    const productDoc = db.collection("products").doc(productId);
+    await productDoc.set(
+      {
+        barcode: upc,
+        ...(product?.description ? {name: product.description} : {}),
+        ...(product?.brand ? {brand: product.brand} : {}),
+        ...(imageUrl ? {imageUrl} : {}),
+      },
+      {merge: true}
+    );
 
     await priceDoc.set({
       source: "Kroger",

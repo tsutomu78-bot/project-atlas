@@ -10,12 +10,17 @@ import '../models/result.dart' as result;
 /// Firestore (products/{id}/prices/kroger) via FirestorePriceRepository,
 /// keeping one single source of truth for "what does the UI read."
 class KrogerConnector implements RetailConnector {
-  final FirebaseFunctions _functions;
+  final FirebaseFunctions? _functionsOverride;
   final String _defaultLocationId;
 
   KrogerConnector({required String defaultLocationId, FirebaseFunctions? functions})
       : _defaultLocationId = defaultLocationId,
-        _functions = functions ?? FirebaseFunctions.instance;
+        _functionsOverride = functions;
+
+  // Resolved lazily (not in the constructor) so a test subclass that
+  // overrides refreshPrice entirely never triggers FirebaseFunctions.instance
+  // — which throws if no Firebase app is registered, as in widget tests.
+  FirebaseFunctions get _functions => _functionsOverride ?? FirebaseFunctions.instance;
 
   @override
   String get connectorId => 'kroger';
