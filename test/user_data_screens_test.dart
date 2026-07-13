@@ -38,12 +38,20 @@ Widget harness({
       scanHistoryRepositoryProvider
           .overrideWithValue(history ?? FakeScanHistoryRepository()),
       krogerConnectorProvider.overrideWithValue(kroger ?? FakeKrogerConnector()),
+      // MobileScanner needs platform channels that don't exist under
+      // flutter_test — the fallback UI still exercises the full scan flow.
+      scannerCameraEnabledProvider.overrideWithValue(false),
     ],
     child: MaterialApp(
       home: home,
       // Stub target for ScanScreen's navigation so tests never construct the
       // real ProductScreen (whose price repository is Firestore-backed).
-      routes: {AppRoutes.product: (_) => const Scaffold(body: Text('PRODUCT_STUB'))},
+      // Echoes the route argument so tests can assert the UPC was passed.
+      routes: {
+        AppRoutes.product: (context) => Scaffold(
+            body: Text(
+                'PRODUCT_STUB:${ModalRoute.of(context)?.settings.arguments}')),
+      },
     ),
   );
 }
@@ -136,6 +144,12 @@ void main() {
       expect(kroger.calls, hasLength(1));
       expect(kroger.calls.single.productId, ScanScreen.simulatedUpc);
       expect(kroger.calls.single.upc, ScanScreen.simulatedUpc);
+
+      // Navigation happens after the brief "found" confirmation, carrying
+      // the UPC as the route argument (ATLAS-005).
+      await tester.pumpAndSettle(const Duration(seconds: 1));
+      expect(
+          find.text('PRODUCT_STUB:${ScanScreen.simulatedUpc}'), findsOneWidget);
     });
   });
 }

@@ -9,17 +9,20 @@ import '../scan/scan_screen.dart';
 /// The core value screen. Reads prices through PriceRepository so the UI is
 /// already built against the real architecture: per-connector loading,
 /// confidence display, and graceful failure per ARCHITECTURE.md §5–6b.
-/// Until the camera exists (ATLAS-005) the product shown is the simulated
-/// scan's UPC.
 class ProductScreen extends ConsumerStatefulWidget {
-  const ProductScreen({super.key});
+  const ProductScreen({super.key, this.productId});
+
+  /// Supplied by the router from the route arguments (the scanned UPC).
+  /// Null only when the route is entered with no arguments — fall back to
+  /// the dev product so the screen still renders real pipeline data.
+  final String? productId;
 
   @override
   ConsumerState<ProductScreen> createState() => _ProductScreenState();
 }
 
 class _ProductScreenState extends ConsumerState<ProductScreen> {
-  static const _productId = ScanScreen.simulatedUpc;
+  late final String _productId = widget.productId ?? ScanScreen.simulatedUpc;
 
   late final Future<List<Result<PriceInfo>>> _pricesFuture =
       ref.read(priceRepositoryProvider).pricesForUpc(_productId);

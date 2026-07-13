@@ -21,6 +21,11 @@ final krogerConnectorProvider = Provider(
   (ref) => KrogerConnector(defaultLocationId: defaultKrogerLocationId),
 );
 
+/// Whether the Scan screen builds the real camera scanner. Overridden to
+/// false in widget tests — MobileScanner needs platform channels that don't
+/// exist under flutter_test.
+final scannerCameraEnabledProvider = Provider<bool>((_) => true);
+
 final authRepositoryProvider = Provider<AuthRepository>(
   (ref) => FirebaseAuthRepository(),
 );

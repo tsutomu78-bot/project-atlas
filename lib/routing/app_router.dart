@@ -28,7 +28,9 @@ class AppRoutes {
     login: (_) => const LoginScreen(),
     home: (_) => const HomeScreen(),
     scan: (_) => const ScanScreen(),
-    product: (_) => const ProductScreen(),
+    // The scan flow passes the scanned UPC as the route argument (ATLAS-005).
+    product: (context) => ProductScreen(
+        productId: ModalRoute.of(context)?.settings.arguments as String?),
     shoppingList: (_) => const ShoppingListScreen(),
     history: (_) => const HistoryScreen(),
     favorites: (_) => const FavoritesScreen(),
