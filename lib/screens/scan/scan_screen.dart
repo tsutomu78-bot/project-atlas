@@ -125,8 +125,22 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
         MobileScanner(
           controller: _controller,
           onDetect: _onDetect,
-          placeholderBuilder: (_) =>
-              const Center(child: CircularProgressIndicator()),
+          // Black like a camera warming up — the white guide-box overlay sits
+          // on top of this, so a light placeholder would be unreadable.
+          placeholderBuilder: (_) => const ColoredBox(
+            color: Colors.black,
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(),
+                  SizedBox(height: 16),
+                  Text('Starting camera…',
+                      style: TextStyle(color: Colors.white70)),
+                ],
+              ),
+            ),
+          ),
           errorBuilder: (context, error) => _cameraUnavailable(error),
         ),
         if (_phase == _Phase.scanning) _scanningOverlay(),

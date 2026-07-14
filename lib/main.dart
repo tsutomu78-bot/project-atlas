@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 import 'firebase_options.dart';
 import 'providers.dart';
 import 'theme/app_theme.dart';
@@ -13,6 +14,12 @@ Future<void> main() async {
   // get their own FirebaseOptions when those builds are set up.
   if (kIsWeb) {
     await Firebase.initializeApp(options: DefaultFirebaseOptions.web);
+    // mobile_scanner's default is to fetch its ZXing script from unpkg.com at
+    // camera start — ad blockers and flaky CDNs hang that forever (seen
+    // 2026-07-12: infinite spinner, no permission prompt). Serve the same
+    // pinned library from our own bundle instead (web/js/).
+    MobileScannerPlatform.instance
+        .setBarcodeLibraryScriptUrl('js/zxing-library-0.21.3.js');
   }
   runApp(const ProviderScope(child: ProjectAtlasApp()));
 }
