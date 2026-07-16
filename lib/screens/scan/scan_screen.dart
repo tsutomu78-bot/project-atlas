@@ -56,8 +56,11 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
 
   void _onDetect(BarcodeCapture capture) {
     if (_navigating || _phase != _Phase.scanning) return;
-    final raw =
-        capture.barcodes.isEmpty ? null : capture.barcodes.first.rawValue;
+    // mobile_scanner's web start() emits an empty capture to clear stale
+    // results. That's plumbing, not a detection — flipping to notFound here
+    // would swallow every later real scan behind the phase guard above.
+    if (capture.barcodes.isEmpty) return;
+    final raw = capture.barcodes.first.rawValue;
     final upc = normalizeScannedCode(raw);
     if (upc == null) {
       // Detected something we can't turn into a product id. Per
