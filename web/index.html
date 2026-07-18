@@ -33,6 +33,29 @@
   <link rel="manifest" href="manifest.json">
 </head>
 <body>
+  <script>
+    // mobile_scanner 7.2.0 web ignores MobileScannerController.cameraResolution
+    // (its getUserMedia only sets facingMode), so cameras start at the browser
+    // default 640x480 — too coarse to decode a UPC at natural distance.
+    // Shim getUserMedia to request 1080p for any video stream. The browser
+    // treats "ideal" as best-effort, so cameras that can't do 1080p still work.
+    (function () {
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) return;
+      const orig = navigator.mediaDevices.getUserMedia.bind(navigator.mediaDevices);
+      navigator.mediaDevices.getUserMedia = function (constraints) {
+        if (constraints && constraints.video) {
+          const video = typeof constraints.video === 'object' ? constraints.video : {};
+          constraints = Object.assign({}, constraints, {
+            video: Object.assign({}, video, {
+              width: { ideal: 1920 },
+              height: { ideal: 1080 },
+            }),
+          });
+        }
+        return orig(constraints);
+      };
+    })();
+  </script>
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>

@@ -44,6 +44,10 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
         // The pipeline's product ids are UPC/EAN digits; other symbologies
         // (QR etc.) are out of scope, so don't even detect them.
         formats: const [BarcodeFormat.upcA, BarcodeFormat.ean13],
+        // Web defaults to 640x480, which can't resolve a UPC at natural
+        // holding distance (verified live 2026-07-18: this laptop's camera is
+        // 1080p-capable but streamed at 480p — bars ~50px wide, undecodable).
+        cameraResolution: const Size(1920, 1080),
       );
     }
   }
@@ -62,6 +66,9 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
     if (capture.barcodes.isEmpty) return;
     final raw = capture.barcodes.first.rawValue;
     final upc = normalizeScannedCode(raw);
+    // TEMP DEBUG (2026-07-16): diagnosing founder's "not recognized" — remove.
+    debugPrint('SCAN-DEBUG raw="$raw" format=${capture.barcodes.first.format} '
+        '-> normalized=$upc');
     if (upc == null) {
       // Detected something we can't turn into a product id. Per
       // ENGINEERING-VALUES this is a normal outcome, not an error.
