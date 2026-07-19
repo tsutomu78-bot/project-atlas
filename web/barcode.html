@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Test barcode</title>
+<style>
+  html, body { margin: 0; padding: 0; background: #fff; }
+  body { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; }
+  canvas { width: 96vw; max-width: 700px; }
+  p { font-family: sans-serif; color: #444; font-size: 14px; margin: 12px; text-align: center; }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<p>EAN-13 4006381333931 &middot; brightness to max &middot; hold phone 15&ndash;25&nbsp;cm from the laptop camera</p>
+<script>
+// EAN-13 module pattern, same encoding verified against the app's ZXing lib.
+const L = ['0001101','0011001','0010011','0111101','0100011','0110001','0101111','0111011','0110111','0001011'];
+const G = ['0100111','0110011','0011011','0100001','0011101','0111001','0000101','0010001','0001001','0010111'];
+const R = L.map(s => s.split('').map(b => b === '1' ? '0' : '1').join(''));
+const PARITY = ['LLLLLL','LLGLGG','LLGGLG','LLGGGL','LGLLGG','LGGLLG','LGGGLL','LGLGLG','LGLGGL','LGGLGL'];
+const code = '4006381333931';
+const parity = PARITY[+code[0]];
+let m = '101';
+for (let i = 0; i < 6; i++) m += (parity[i] === 'L' ? L[+code[1 + i]] : G[+code[1 + i]]);
+m += '01010';
+for (let i = 0; i < 6; i++) m += R[+code[7 + i]];
+m += '101';
+const quiet = 9, mw = 8, h = 420;
+const c = document.getElementById('c');
+c.width = (m.length + quiet * 2) * mw;
+c.height = h;
+const x = c.getContext('2d');
+x.fillStyle = '#fff'; x.fillRect(0, 0, c.width, c.height);
+x.fillStyle = '#000';
+for (let i = 0; i < m.length; i++)
+  if (m[i] === '1') x.fillRect((quiet + i) * mw, 20, mw, h - 40);
+</script>
+</body>
+</html>
