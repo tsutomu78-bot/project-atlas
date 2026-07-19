@@ -22,6 +22,10 @@ class KrogerConnector implements RetailConnector {
   // — which throws if no Firebase app is registered, as in widget tests.
   FirebaseFunctions get _functions => _functionsOverride ?? FirebaseFunctions.instance;
 
+  /// The store used when a call doesn't pass an explicit locationId.
+  /// Exposed so wiring (and tests) can verify which store is active.
+  String get defaultLocationId => _defaultLocationId;
+
   @override
   String get connectorId => 'kroger';
 

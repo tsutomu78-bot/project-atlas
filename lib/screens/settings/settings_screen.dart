@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers.dart';
 import '../../routing/app_router.dart';
+import '../../settings/kroger_stores.dart';
 
 /// MVP scope only: Account / Retailer connections / Privacy-About / version.
 /// No themes, AI preferences, pantry settings, or experimental features
@@ -37,6 +38,21 @@ class SettingsScreen extends ConsumerWidget {
             ),
           const _SectionHeader('Retailer connections'),
           const ListTile(title: Text('3 connectors active'), trailing: Icon(Icons.chevron_right)),
+          const _SectionHeader('Store location'),
+          for (final store in krogerStores)
+            ListTile(
+              title: Text(store.label),
+              // Explain everything: show the raw location id the connector
+              // will actually query, not just a friendly name.
+              subtitle: Text('Kroger location ${store.locationId}',
+                  style: const TextStyle(fontSize: 12)),
+              trailing: ref.watch(krogerLocationIdProvider) == store.locationId
+                  ? const Icon(Icons.check)
+                  : null,
+              onTap: () => ref
+                  .read(krogerLocationIdProvider.notifier)
+                  .select(store.locationId),
+            ),
           const _SectionHeader('Privacy / About'),
           const ListTile(title: Text('Privacy policy'), trailing: Icon(Icons.chevron_right)),
           const Padding(
