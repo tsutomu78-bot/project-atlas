@@ -37,7 +37,13 @@ class SettingsScreen extends ConsumerWidget {
               },
             ),
           const _SectionHeader('Retailer connections'),
-          const ListTile(title: Text('3 connectors active'), trailing: Icon(Icons.chevron_right)),
+          // Truth over completeness: only Kroger is actually wired today.
+          // Target/Walmart join this list when ATLAS-008 lands.
+          const ListTile(
+            title: Text('1 connector active'),
+            subtitle: Text('Kroger — Target and Walmart coming later',
+                style: TextStyle(fontSize: 12)),
+          ),
           const _SectionHeader('Store location'),
           for (final store in krogerStores)
             ListTile(
