@@ -24,9 +24,20 @@ class ProductScreen extends ConsumerStatefulWidget {
 class _ProductScreenState extends ConsumerState<ProductScreen> {
   late final String _productId = widget.productId ?? ScanScreen.simulatedUpc;
 
-  late final Future<List<Result<PriceInfo>>> _pricesFuture =
-      ref.read(priceRepositoryProvider).pricesForUpc(_productId);
+  late final Future<List<Result<PriceInfo>>> _pricesFuture = _loadPrices();
   bool _isFavorite = false;
+
+  /// Triggers a fresh Kroger lookup and waits for it before reading Firestore
+  /// — the scan flow's whole point is a *current* price, so the read must
+  /// come after the write settles (or fails), never race it. A failed
+  /// refresh isn't fatal: pricesForUpc still honestly reports whatever is
+  /// (or isn't) already in Firestore.
+  Future<List<Result<PriceInfo>>> _loadPrices() async {
+    await ref
+        .read(krogerConnectorProvider)
+        .refreshPrice(productId: _productId, upc: _productId);
+    return ref.read(priceRepositoryProvider).pricesForUpc(_productId);
+  }
 
   @override
   void initState() {
@@ -152,20 +163,28 @@ class _PriceCard extends StatelessWidget {
     // field, never a crash (Engineering Value #1: truth over completeness).
     switch (result) {
       case Success(value: final price):
+        // Kroger can write a price doc with no price (e.g. cert-env
+        // unavailable) — a Success Result means "we have a record", not
+        // "we have a number". Render exactly what's known, nothing guessed.
+        final availabilityText = switch (price.availability) {
+          Availability.inStock => 'In stock',
+          Availability.outOfStock => 'Out of stock',
+          Availability.unknown => 'Availability unknown',
+        };
         return Card(
           child: ListTile(
             title: Text(price.source),
-            subtitle: Text(
-              '${price.availability == Availability.inStock ? "In stock" : "Out of stock"}'
-              ' · Verified ${_ago(price.verifiedAt)}',
-            ),
+            subtitle: Text('$availabilityText · Verified ${_ago(price.verifiedAt)}'),
             trailing: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Text('\$${price.price!.toStringAsFixed(2)}',
-                    style: const TextStyle(fontWeight: FontWeight.w500)),
-                Text('${price.confidence}%', style: const TextStyle(fontSize: 11)),
+                Text(
+                  price.price != null ? '\$${price.price!.toStringAsFixed(2)}' : 'No price',
+                  style: const TextStyle(fontWeight: FontWeight.w500),
+                ),
+                if (price.confidence != null)
+                  Text('${price.confidence}%', style: const TextStyle(fontSize: 11)),
               ],
             ),
           ),

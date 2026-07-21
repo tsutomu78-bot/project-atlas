@@ -125,13 +125,15 @@ void main() {
   });
 
   group('ScanScreen', () {
-    testWidgets('simulate scan records history and refreshes price', (tester) async {
+    testWidgets('simulate scan records history and navigates with the UPC',
+        (tester) async {
+      // Kroger refresh is triggered by ProductScreen now (awaited there,
+      // right before it reads Firestore) — see product_screen_test.dart —
+      // so ScanScreen's own job is just history + navigation.
       final repo = FakeScanHistoryRepository();
-      final kroger = FakeKrogerConnector();
       await tester.pumpWidget(harness(
         home: const ScanScreen(),
         history: repo,
-        kroger: kroger,
       ));
       await tester.pumpAndSettle();
 
@@ -140,10 +142,6 @@ void main() {
 
       expect(repo.entries, hasLength(1));
       expect(repo.entries.single.productId, ScanScreen.simulatedUpc);
-
-      expect(kroger.calls, hasLength(1));
-      expect(kroger.calls.single.productId, ScanScreen.simulatedUpc);
-      expect(kroger.calls.single.upc, ScanScreen.simulatedUpc);
 
       // Navigation happens after the brief "found" confirmation, carrying
       // the UPC as the route argument (ATLAS-005).

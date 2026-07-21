@@ -83,6 +83,15 @@ export const lookupKrogerPrice = onCall(
 
     const db = getFirestore();
     const priceDoc = db.collection("products").doc(productId).collection("prices").doc("kroger");
+    const productDoc = db.collection("products").doc(productId);
+
+    // Seed the catalog doc's barcode unconditionally, before we know whether
+    // Kroger has data — FirestorePriceRepository.pricesForUpc finds products
+    // by querying `barcode`, so without this write the product can never be
+    // found at all while Kroger is down, even though a (data-less) price doc
+    // exists right under it. Richer fields (name/brand/imageUrl) are merged
+    // in below only when Kroger actually returns them.
+    await productDoc.set({barcode: upc}, {merge: true});
 
     if (!res.ok) {
       // Fail gracefully — record that Kroger had no current data rather
@@ -110,19 +119,19 @@ export const lookupKrogerPrice = onCall(
     const stockLevel = item?.inventory?.stockLevel;
     const imageUrl = product?.images?.[0]?.sizes?.[0]?.url;
 
-    // Catalog writes are backend-only per firestore.rules — this is the one
-    // place the products/{id} doc gets seeded, piggybacking on the same
-    // Kroger response so no extra API call is needed.
-    const productDoc = db.collection("products").doc(productId);
-    await productDoc.set(
-      {
-        barcode: upc,
-        ...(product?.description ? {name: product.description} : {}),
-        ...(product?.brand ? {brand: product.brand} : {}),
-        ...(imageUrl ? {imageUrl} : {}),
-      },
-      {merge: true}
-    );
+    // Catalog writes are backend-only per firestore.rules. `barcode` was
+    // already seeded above; this merges in the richer fields Kroger actually
+    // returned, piggybacking on the same response so no extra API call is needed.
+    if (product?.description || product?.brand || imageUrl) {
+      await productDoc.set(
+        {
+          ...(product?.description ? {name: product.description} : {}),
+          ...(product?.brand ? {brand: product.brand} : {}),
+          ...(imageUrl ? {imageUrl} : {}),
+        },
+        {merge: true}
+      );
+    }
 
     await priceDoc.set({
       source: "Kroger",

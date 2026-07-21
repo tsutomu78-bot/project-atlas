@@ -82,14 +82,14 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
   Future<void> _goToProduct(String upc) async {
     if (_navigating) return;
     _navigating = true;
-    // Record history and trigger a fresh price lookup best-effort — a
-    // failed write must never block the scan → product flow.
+    // Record history best-effort — a failed write must never block the
+    // scan → product flow. The price refresh itself is triggered by the
+    // Product screen (awaited there, before it reads Firestore) so the
+    // displayed price is never a race against this fire-and-forget call.
     final uid = ref.read(currentUserIdProvider);
     if (uid != null) {
       ref.read(scanHistoryRepositoryProvider).record(uid, upc);
     }
-    unawaited(
-        ref.read(krogerConnectorProvider).refreshPrice(productId: upc, upc: upc));
     setState(() => _phase = _Phase.found);
     // Brief confirmation per the wireframe's "found" state, and no camera
     // running underneath the product screen.
