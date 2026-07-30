@@ -66,9 +66,6 @@ class _ScanScreenState extends ConsumerState<ScanScreen> {
     if (capture.barcodes.isEmpty) return;
     final raw = capture.barcodes.first.rawValue;
     final upc = normalizeScannedCode(raw);
-    // TEMP DEBUG (2026-07-16): diagnosing founder's "not recognized" — remove.
-    debugPrint('SCAN-DEBUG raw="$raw" format=${capture.barcodes.first.format} '
-        '-> normalized=$upc');
     if (upc == null) {
       // Detected something we can't turn into a product id. Per
       // ENGINEERING-VALUES this is a normal outcome, not an error.
