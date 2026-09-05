@@ -103,7 +103,7 @@
     font-weight: 800;
     letter-spacing: -.028em;
     line-height: 1.02;
-    max-width: 16ch;
+    max-width: 17ch;
   }
 
   .masthead h1 em {
@@ -112,7 +112,7 @@
   }
 
   .standfirst {
-    max-width: 60ch;
+    max-width: 62ch;
     font-size: var(--step1);
     color: var(--ink-2);
     margin: 0;
@@ -166,11 +166,93 @@
 
   .sec-head p { margin: 0; color: var(--ink-2); max-width: 65ch; }
 
-  /* ---------- hardware picker ---------- */
+  /* ---------- the machine ---------- */
 
-  .boxes {
+  .machine {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: 1rem;
+    align-items: start;
+  }
+
+  @media (max-width: 46rem) { .machine { grid-template-columns: 1fr; } }
+
+  .verdict {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-top: 3px solid var(--accent);
+    border-radius: 0 0 4px 4px;
+    padding: 1.1rem 1.15rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: .8rem;
+    box-shadow: var(--shadow);
+  }
+
+  .verdict h3 { font-size: var(--step1); font-weight: 700; }
+  .verdict p { margin: 0; font-size: .9rem; color: var(--ink-2); }
+  .verdict p b { color: var(--ink); font-weight: 600; }
+
+  .ledger {
+    margin: 0;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: .45rem .9rem;
+    font-size: .84rem;
+    border-top: 1px solid var(--rule);
+    padding-top: .8rem;
+  }
+
+  .ledger dt {
+    font-family: var(--mono);
+    font-size: .7rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+    padding-top: .18rem;
+    white-space: nowrap;
+  }
+
+  .ledger dd { margin: 0; }
+  .ledger dd b { font-weight: 600; }
+
+  .audit {
+    background: var(--surface-2);
+    border-radius: 4px;
+    padding: 1.1rem 1.15rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: .7rem;
+  }
+
+  .audit h3 { font-size: var(--step0); font-weight: 700; letter-spacing: .01em; }
+
+  .audit ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: .55rem;
+    font-size: .86rem;
+  }
+
+  .audit li { display: grid; grid-template-columns: auto 1fr; gap: .7rem; align-items: start; }
+
+  .audit .mark {
+    font-family: var(--mono);
+    font-size: .72rem;
+    color: var(--accent);
+    padding-top: .2rem;
+  }
+
+  .audit small { display: block; color: var(--ink-2); font-size: .79rem; line-height: 1.45; }
+
+  /* ---------- fork ---------- */
+
+  .fork {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
     gap: 1rem;
   }
 
@@ -181,17 +263,13 @@
     padding: 1.1rem 1.15rem 1.25rem;
     display: flex;
     flex-direction: column;
-    gap: .75rem;
+    gap: .7rem;
     box-shadow: var(--shadow);
   }
 
-  .box.pick { border-color: var(--accent); border-width: 1px; box-shadow: var(--shadow), inset 0 3px 0 var(--accent); }
+  .box.pick { box-shadow: var(--shadow), inset 0 3px 0 var(--accent); border-color: var(--accent); }
 
-  .box h3 {
-    font-size: var(--step1);
-    font-weight: 700;
-    letter-spacing: -.01em;
-  }
+  .box h3 { font-size: var(--step1); font-weight: 700; letter-spacing: -.01em; }
 
   .box .tag {
     display: inline-block;
@@ -206,26 +284,11 @@
     align-self: flex-start;
   }
 
-  .box .tag.diy { background: var(--copper-soft); color: var(--copper); }
+  .box .tag.alt { background: var(--copper-soft); color: var(--copper); }
 
   .box p { margin: 0; color: var(--ink-2); font-size: .9rem; }
-
-  .box .specs {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: .3rem;
-    font-family: var(--mono);
-    font-size: .78rem;
-    color: var(--ink);
-    border-top: 1px solid var(--rule);
-    padding-top: .7rem;
-  }
-
-  .box .specs li { display: flex; justify-content: space-between; gap: 1rem; }
-  .box .specs span { color: var(--ink-2); }
+  .box p.who { color: var(--ink); font-size: .86rem; border-top: 1px solid var(--rule); padding-top: .7rem; }
+  .box p.who b { font-family: var(--mono); font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); display: block; font-weight: 400; }
 
   /* ---------- the spine ---------- */
 
@@ -301,7 +364,7 @@
 
   .step-body p { margin: 0; max-width: 66ch; }
 
-  .step-body ol.sub {
+  .step-body ol.sub, .step-body ul.sub {
     margin: 0;
     padding-left: 1.15rem;
     display: flex;
@@ -312,12 +375,9 @@
 
   .step-body ol.sub::marker { color: var(--ink-2); }
 
-  code, .kbd-path, .url {
+  code {
     font-family: var(--mono);
     font-size: .86em;
-  }
-
-  code {
     background: var(--surface-2);
     padding: .1em .35em;
     border-radius: 2px;
@@ -325,6 +385,7 @@
 
   .kbd-path {
     display: block;
+    font-family: var(--mono);
     background: var(--surface);
     border: 1px solid var(--rule);
     border-left: 3px solid var(--accent);
@@ -339,6 +400,41 @@
 
   .kbd-path b { color: var(--accent); font-weight: 500; }
 
+  .route {
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    background: var(--surface);
+    overflow: hidden;
+  }
+
+  .route + .route { margin-top: -.1rem; }
+
+  .route > h4 {
+    margin: 0;
+    font-family: var(--display);
+    font-size: .95rem;
+    font-weight: 700;
+    padding: .6rem .85rem;
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--rule);
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem .8rem;
+    align-items: baseline;
+  }
+
+  .route > h4 span {
+    font-family: var(--mono);
+    font-weight: 400;
+    font-size: .72rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+  }
+
+  .route ol { margin: 0; padding: .85rem .85rem .95rem 2rem; display: flex; flex-direction: column; gap: .4rem; font-size: .9rem; }
+  .route ol::marker { color: var(--ink-2); }
+
   .urlbar {
     display: flex;
     flex-wrap: wrap;
@@ -352,7 +448,7 @@
   }
 
   .urlbar .dot { width: .55rem; height: .55rem; border-radius: 50%; background: var(--rule); flex: none; }
-  .urlbar .url { font-size: 1rem; font-weight: 500; word-break: break-all; }
+  .urlbar .url { font-family: var(--mono); font-size: 1rem; font-weight: 500; word-break: break-all; }
   .urlbar .url b { color: var(--accent); font-weight: 500; }
 
   .note {
@@ -398,7 +494,7 @@
 
   .table-wrap { overflow-x: auto; border: 1px solid var(--rule); border-radius: 4px; background: var(--surface); }
 
-  table { border-collapse: collapse; width: 100%; min-width: 38rem; }
+  table { border-collapse: collapse; width: 100%; min-width: 40rem; }
 
   th, td {
     text-align: left;
@@ -415,7 +511,6 @@
     text-transform: uppercase;
     color: var(--ink-2);
     background: var(--surface-2);
-    border-bottom: 1px solid var(--rule);
   }
 
   tbody tr:last-child td { border-bottom: none; }
@@ -474,12 +569,7 @@
   .checklist input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   .checklist input:checked + span { color: var(--ink-2); text-decoration: line-through; text-decoration-color: var(--rule); }
 
-  .checklist span small {
-    display: block;
-    color: var(--ink-2);
-    font-size: .8rem;
-    line-height: 1.45;
-  }
+  .checklist span small { display: block; color: var(--ink-2); font-size: .8rem; line-height: 1.45; }
 
   /* ---------- footer ---------- */
 
@@ -511,63 +601,87 @@
 <div class="page">
 
   <header class="masthead">
-    <p class="eyebrow">Home Assistant OS · dedicated hardware</p>
-    <h1>Put Home&nbsp;Assistant on a box that does <em>nothing else</em>.</h1>
+    <p class="eyebrow">Home Assistant OS · ThinkPad X260</p>
+    <h1>Retire the laptop. Promote it to <em>smart home hub</em>.</h1>
     <p class="standfirst">
-      A dedicated device running Home Assistant Operating System is the supported path: it ships
-      the Supervisor, the add-on store and one-click backups, and it updates itself. Here is the
-      whole install, from unboxing to your first automation, in seven steps.
+      A ThinkPad X260 makes a better Home Assistant box than most things you could buy: wired
+      Ethernet, a Skylake CPU with headroom to spare, and a battery that is, functionally, a
+      built-in UPS. Here is the whole install — seven steps, no command line after the flash.
     </p>
     <div class="budget">
-      <dl><dt>Hands-on</dt><dd>~30 min</dd></dl>
+      <dl><dt>Hands-on</dt><dd>~45 min</dd></dl>
       <dl><dt>Waiting on first boot</dt><dd>~20 min</dd></dl>
-      <dl><dt>Command line needed</dt><dd>None</dd></dl>
-      <dl><dt>Cost floor</dt><dd>Device + PSU + cable</dd></dl>
+      <dl><dt>Idle draw</dt><dd>~10–15 W</dd></dl>
+      <dl><dt>To spend</dt><dd>£0</dd></dl>
     </div>
   </header>
 
   <section>
     <div class="sec-head">
-      <p class="eyebrow">Step 0 — the fork in the road</p>
-      <h2>Pick the box. It decides whether you flash anything.</h2>
+      <p class="eyebrow">Step 0 — the machine</p>
+      <h2>What you already have, and what to check before you start</h2>
+    </div>
+    <div class="machine">
+      <div class="verdict">
+        <h3>Why the X260 is a good hub</h3>
+        <p>
+          Three things matter in a hub, and this laptop has all of them. <b>Gigabit Ethernet on
+          board</b>, so no Wi-Fi dropouts between your automations and your lights. <b>A dual
+          battery</b> — Lenovo's Power Bridge pairs an internal cell with a hot-swappable external
+          one — which rides out short power cuts without you buying a UPS. And <b>x86-64 with real
+          headroom</b>: cameras, voice pipelines and local add-ons that choke a Raspberry Pi run
+          comfortably here.
+        </p>
+        <dl class="ledger">
+          <dt>CPU</dt><dd>6th-gen Intel Core U-series — ample for Home Assistant</dd>
+          <dt>RAM</dt><dd><b>One SODIMM slot, 16 GB max.</b> 8 GB is plenty; 4 GB is tight if you want add-ons</dd>
+          <dt>Disk</dt><dd><b>2.5-inch SATA bay.</b> This is the drive you will flash — an SSD, ideally 120 GB or more</dd>
+          <dt>Network</dt><dd>Gigabit Ethernet — use it, not Wi-Fi</dd>
+          <dt>Radios</dt><dd>None usable for Zigbee or Thread. Budget a USB stick if you want them</dd>
+        </dl>
+      </div>
+      <div class="audit">
+        <h3>Check these before you commit</h3>
+        <ul>
+          <li><span class="mark">01</span><span>Back up anything still on the disk<small>The flash overwrites the whole drive. There is no partition step and no undo.</small></span></li>
+          <li><span class="mark">02</span><span>Inspect the external battery<small>If it is swollen or the case no longer sits flat, take it out and bin it responsibly. Run on mains only.</small></span></li>
+          <li><span class="mark">03</span><span>Confirm it holds charge at all<small>A dead battery is fine — it just means no UPS. A degraded one that reboots under load is not.</small></span></li>
+          <li><span class="mark">04</span><span>Blow out the fan<small>This box will now run 24/7. Five minutes with compressed air buys you years.</small></span></li>
+          <li><span class="mark">05</span><span>Decide where it lives<small>Next to the router, lid open, hard surface, not in a cupboard.</small></span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <p class="eyebrow">One decision, before you flash</p>
+      <h2>Give the whole laptop to Home Assistant, or virtualise it?</h2>
       <p>
-        Everything after this is identical. The only difference between these three is who writes
-        the operating system to storage — the factory, or you.
+        The rest of this guide assumes the first. The second is worth ten minutes' thought only if
+        you already know you want the machine doing more than one job.
       </p>
     </div>
-    <div class="boxes">
+    <div class="fork">
       <div class="box pick">
-        <span class="tag">No flashing</span>
-        <h3>Home Assistant Green</h3>
-        <p>The official hub, sold with Home Assistant OS already on its eMMC. Plug in Ethernet and power, then skip straight to step 4.</p>
-        <ul class="specs">
-          <li><span>SoC</span> Rockchip RK3566</li>
-          <li><span>RAM</span> 4 GB</li>
-          <li><span>Storage</span> 32 GB eMMC</li>
-          <li><span>Radios</span> None built in</li>
-        </ul>
+        <span class="tag">Recommended</span>
+        <h3>Home Assistant OS, bare metal</h3>
+        <p>
+          Write Home Assistant OS straight onto the SATA drive. The laptop becomes an appliance:
+          it boots into Home Assistant, updates itself, and has no login shell to maintain.
+          Supervisor, the add-on store and one-click backups all come included.
+        </p>
+        <p class="who"><b>Pick this if</b> the laptop has no other job. Simplest to install, simplest to live with.</p>
       </div>
       <div class="box">
-        <span class="tag diy">You flash it</span>
-        <h3>Raspberry Pi 5</h3>
-        <p>The tinkerer's board: GPIO, fast USB, and an M.2 HAT for NVMe. Budget for the official 27 W supply — phone chargers brown out under load.</p>
-        <ul class="specs">
-          <li><span>Image</span> HAOS for RPi 5 (64-bit)</li>
-          <li><span>Storage</span> 32 GB SD min.</li>
-          <li><span>Better</span> NVMe or USB SSD</li>
-          <li><span>Power</span> 5 V / 5 A USB-C</li>
-        </ul>
-      </div>
-      <div class="box">
-        <span class="tag diy">You flash it</span>
-        <h3>x86-64 mini PC</h3>
-        <p>An N100-class fanless box has headroom for cameras, voice and local LLM add-ons. Write the generic x86-64 image to the internal drive; it becomes an appliance.</p>
-        <ul class="specs">
-          <li><span>Image</span> HAOS generic-x86-64</li>
-          <li><span>Storage</span> Internal SSD</li>
-          <li><span>BIOS</span> Boot on AC restore</li>
-          <li><span>Note</span> Wipes the disk</li>
-        </ul>
+        <span class="tag alt">More work</span>
+        <h3>Proxmox, with Home Assistant OS in a VM</h3>
+        <p>
+          Install a hypervisor first, then run Home Assistant OS as one virtual machine beside
+          others. You gain whole-system snapshots before every risky change, and room for a
+          network-wide ad blocker or a media server on the same box.
+        </p>
+        <p class="who"><b>Pick this if</b> you want snapshots or a second service, and don't mind maintaining a hypervisor.</p>
       </div>
     </div>
   </section>
@@ -583,44 +697,61 @@
       <article class="step">
         <div class="num">1</div>
         <div class="step-head">
-          <h3>Lay out the parts</h3>
-          <span class="clock">5 min</span>
+          <h3>Set up the BIOS first</h3>
+          <span class="clock">10 min</span>
         </div>
         <div class="step-body">
           <p>
-            Gather these before you start, because discovering a missing item mid-flash costs you an
-            evening: the device, its proper power supply, an Ethernet cable and a free router port,
-            the storage medium, and a computer with a card reader or USB adapter.
+            Do this before flashing — a machine that will not boot the new drive is much harder to
+            diagnose afterwards. Power on and tap <code>F1</code> (or <code>Enter</code>, then
+            <code>F1</code>) to reach ThinkPad Setup.
           </p>
-          <div class="note">
-            <span class="label">Wired</span>
-            <p>Use Ethernet for the first boot even if you intend to run Wi-Fi later. Discovery, onboarding and the initial update all assume a stable link, and a hub that hosts your locks and heating deserves a cable.</p>
-          </div>
+          <ul class="sub">
+            <li><b>Security → Secure Boot → Disabled.</b> Non-negotiable: Home Assistant OS is not signed for Secure Boot and simply will not start with it on.</li>
+            <li><b>Startup → UEFI/Legacy Boot → UEFI Only.</b> The generic x86-64 image is built to boot UEFI.</li>
+            <li><b>Boot order:</b> put the internal drive first once you're done, and USB first while you're installing.</li>
+            <li><b>Config → Power:</b> enable Wake on LAN if it's offered — useful later, harmless now.</li>
+            <li>Note the drive's own settings: if the disk has a BIOS password or hardware encryption set from a previous life, clear it now.</li>
+          </ul>
         </div>
       </article>
 
       <article class="step">
         <div class="num">2</div>
         <div class="step-head">
-          <h3>Write Home Assistant OS to storage</h3>
-          <span class="clock">10 min · skip on Green</span>
+          <h3>Write Home Assistant OS to the internal drive</h3>
+          <span class="clock">20 min</span>
         </div>
         <div class="step-body">
           <p>
-            Install <b>Raspberry Pi Imager</b> from raspberrypi.com — it carries the Home Assistant
-            images directly, so there is nothing to download by hand. Then walk the menu:
+            This is the one place a laptop differs from a mini PC: you cannot write an operating
+            system onto the disk a machine is currently running from. Pick whichever route matches
+            the tools on your bench. You want the file named:
           </p>
-          <span class="kbd-path">
-            Choose OS → <b>Other specific-purpose OS</b> → <b>Home automation</b> → <b>Home Assistant</b> → the image matching your board
-          </span>
-          <ol class="sub">
-            <li>Pick the image for your exact hardware — an RPi 4 image will not boot an RPi 5.</li>
-            <li>Insert the SD card or SSD and select it as the storage target. Its contents are overwritten.</li>
-            <li>Choose <b>Next → Write</b>, wait for the verify pass, then <b>Finish</b> and eject.</li>
-          </ol>
+          <span class="kbd-path">haos_generic-x86-64-<b>&lt;version&gt;</b>.img.xz</span>
+          <div class="route">
+            <h4>Route A — pull the drive <span>Easiest, if you own a USB-SATA adapter</span></h4>
+            <ol>
+              <li>Power off, unplug, remove the external battery, and disable the internal battery in <b>Config → Power</b> first.</li>
+              <li>Undo the bottom cover and lift out the 2.5-inch drive in its caddy.</li>
+              <li>Connect it to another computer with a USB-SATA adapter or dock.</li>
+              <li>Write the image with <b>Balena Etcher</b> or Raspberry Pi Imager's <b>Use custom</b> option — both read <code>.img.xz</code> directly, no unpacking.</li>
+              <li>Put the drive back in the laptop.</li>
+            </ol>
+          </div>
+          <div class="route">
+            <h4>Route B — flash it in place <span>No disassembly, one command</span></h4>
+            <ol>
+              <li>Write a normal Ubuntu desktop image to a USB stick on any computer.</li>
+              <li>Boot the X260 from that stick and choose <b>Try Ubuntu</b> — a live session, nothing installed.</li>
+              <li>Identify the internal disk with <code>lsblk</code>. It is the one whose size matches the laptop's drive, typically <code>/dev/sda</code>.</li>
+              <li>Decompress and write in one pass, replacing the device name with the one you just confirmed.</li>
+              <li>Shut down, remove the stick, boot from the internal drive.</li>
+            </ol>
+          </div>
           <div class="note">
-            <span class="label">Gotcha</span>
-            <p>Decline Imager's OS customisation prompt — hostname, SSH keys and user accounts. Those settings are written for Raspberry Pi OS and are ignored here; Home Assistant OS has no shell user to configure and creates its own admin account in step 5.</p>
+            <span class="label">Check twice</span>
+            <p>Route B writes to a raw device with no confirmation prompt. Read the output of <code>lsblk</code> carefully and make sure the target is the internal disk, not the USB stick you booted from — the command will happily destroy either.</p>
           </div>
         </div>
       </article>
@@ -628,23 +759,24 @@
       <article class="step">
         <div class="num">3</div>
         <div class="step-head">
-          <h3>Cable it up, then apply power</h3>
+          <h3>Cable it up, then power on</h3>
           <span class="clock">2 min</span>
         </div>
         <div class="step-body">
           <p>
-            Storage in, Ethernet into the router, power last. The hub, the router and the laptop you
-            will onboard from must all sit on the same network segment — guest VLANs and Wi-Fi
-            isolation break the <code>.local</code> name lookup you are about to use.
+            Ethernet into the router, charger in, lid open for now. The hub, the router and the
+            laptop or phone you will onboard from all need to sit on the same network segment —
+            guest networks and Wi-Fi client isolation break the <code>.local</code> lookup you are
+            about to use.
           </p>
           <figure>
             <div class="topology">
-              <svg viewBox="0 0 660 150" role="img" aria-label="The hub connects to the router by Ethernet; your laptop joins the same network over Wi-Fi.">
+              <svg viewBox="0 0 660 150" role="img" aria-label="The ThinkPad connects to the router by Ethernet; your browser joins the same network over Wi-Fi.">
                 <rect x="1" y="1" width="658" height="148" rx="4" fill="none" stroke="var(--rule)" stroke-dasharray="4 4"/>
                 <text x="16" y="24" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--ink-2)" letter-spacing="1.2">ONE FLAT LAN</text>
 
                 <rect x="30" y="52" width="150" height="62" rx="4" fill="var(--accent-soft)" stroke="var(--accent)"/>
-                <text x="105" y="79" text-anchor="middle" font-family="Archivo, sans-serif" font-weight="700" font-size="15" fill="var(--ink)">The hub</text>
+                <text x="105" y="79" text-anchor="middle" font-family="Archivo, sans-serif" font-weight="700" font-size="15" fill="var(--ink)">The X260</text>
                 <text x="105" y="97" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--ink-2)">port 8123</text>
 
                 <line x1="180" y1="83" x2="264" y2="83" stroke="var(--accent)" stroke-width="2.5"/>
@@ -659,10 +791,10 @@
 
                 <rect x="480" y="52" width="150" height="62" rx="4" fill="var(--surface-2)" stroke="var(--rule)"/>
                 <text x="555" y="79" text-anchor="middle" font-family="Archivo, sans-serif" font-weight="700" font-size="15" fill="var(--ink)">Your browser</text>
-                <text x="555" y="97" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--ink-2)">any OS</text>
+                <text x="555" y="97" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--ink-2)">phone or laptop</text>
               </svg>
             </div>
-            <figcaption>No app, no account, no cloud in the loop — onboarding is served by the hub itself.</figcaption>
+            <figcaption>Onboarding is served by the X260 itself — no app, no account, no cloud in the loop.</figcaption>
           </figure>
         </div>
       </article>
@@ -675,9 +807,10 @@
         </div>
         <div class="step-body">
           <p>
-            The first boot is not idle. Home Assistant OS partitions the disk, pulls its container
-            images and starts the Supervisor. Pulling power in the middle of this is the single most
-            common way to end up re-flashing. Go and make coffee.
+            The first boot is not idle. Home Assistant OS expands its partitions, pulls its
+            container images and starts the Supervisor. The screen will sit on a console log that
+            looks stuck — it isn't. Pulling the power here is the most common way to end up
+            re-flashing.
           </p>
         </div>
       </article>
@@ -685,7 +818,7 @@
       <article class="step">
         <div class="num">5</div>
         <div class="step-head">
-          <h3>Open the hub in a browser</h3>
+          <h3>Open the hub from another device</h3>
           <span class="clock">1 min</span>
         </div>
         <div class="step-body">
@@ -694,9 +827,9 @@
             <span class="url">http://<b>homeassistant.local</b>:8123</span>
           </div>
           <p>
-            A “Preparing Home Assistant” screen means it is still working — wait, don't reload
-            repeatedly. If the name does not resolve at all, walk down this ladder:
-            <code>homeassistant:8123</code>, then the IP address the router handed out, from its
+            A “Preparing Home Assistant” screen means it is still working — wait rather than
+            reloading. If the name doesn't resolve, walk down the ladder:
+            <code>homeassistant:8123</code>, then the IP address your router handed out, from its
             DHCP client list.
           </p>
         </div>
@@ -709,16 +842,13 @@
           <span class="clock">5 min</span>
         </div>
         <div class="step-body">
-          <p>
-            Five browser screens, no config files. Everything here is editable later except the
-            username on the owner account.
-          </p>
+          <p>Five browser screens, no config files. Everything is editable later except the username on the owner account.</p>
           <ol class="sub">
-            <li><b>Create the owner account.</b> This is the administrator; give it a real password, not a placeholder you plan to change.</li>
+            <li><b>Create the owner account.</b> This is the administrator — give it a real password, not a placeholder you plan to change.</li>
             <li><b>Name your home</b> and drop its pin on the map.</li>
             <li><b>Set location details</b> — time zone, elevation, unit system. Sunrise and sunset triggers, weather and presence all read from these, so a lazy pin makes bad automations later.</li>
             <li><b>Choose your analytics setting.</b> Opt in or out; it is genuinely optional.</li>
-            <li><b>Review discovered devices.</b> Anything already broadcasting on your network shows up here — add the ones you recognise, leave the rest.</li>
+            <li><b>Review discovered devices.</b> Anything already broadcasting on your network appears here — add what you recognise, leave the rest.</li>
           </ol>
         </div>
       </article>
@@ -726,21 +856,23 @@
       <article class="step">
         <div class="num">7</div>
         <div class="step-head">
-          <h3>Pin the address and turn on backups</h3>
-          <span class="clock">5 min</span>
+          <h3>Settle it in: address, lid, backups</h3>
+          <span class="clock">10 min</span>
         </div>
         <div class="step-body">
-          <p>
-            Do these two before you build anything, while there is still nothing to lose.
-          </p>
+          <p>Three things to do while there is still nothing to lose.</p>
           <ol class="sub">
-            <li>In your router, reserve a fixed DHCP lease for the hub's MAC address. Every integration you add will point at this address.</li>
-            <li><b>Settings → System → Backups</b>: switch on the automatic schedule and send copies somewhere off the device — a network share or Home Assistant Cloud. A restore is a single file.</li>
-            <li><b>Settings → System → Updates</b>: apply anything pending, then reboot once so you start from a clean, current install.</li>
+            <li><b>Reserve its address.</b> In your router, give the X260's MAC a fixed DHCP lease. Every integration you add will point at it.</li>
+            <li><b>Turn on backups.</b> <code>Settings → System → Backups</code>: enable the automatic schedule and send copies off the device — a network share or Home Assistant Cloud. A restore is a single file.</li>
+            <li><b>Update, then reboot once</b> from <code>Settings → System → Updates</code>, so you start current and clean.</li>
           </ol>
           <div class="note">
+            <span class="label">The lid</span>
+            <p>Home Assistant OS can suspend when the lid closes, which takes your whole smart home down with it. The reliable answer is to leave the lid open. If you must close it, log in as <code>root</code> at the physical console and set <code>HandleLidSwitch=ignore</code> in <code>/etc/systemd/logind.conf</code> — but treat that as unproven on your machine: test it for an hour, and re-check after every OS update, because the system partition is managed by the OS.</p>
+          </div>
+          <div class="note">
             <span class="label">Remote</span>
-            <p>Do not port-forward 8123 to the internet. Reach the hub from outside with Home Assistant Cloud or a VPN back into your own network — the hub speaks to your locks, cameras and heating, and its login page is not something to leave on a public port.</p>
+            <p>Do not port-forward 8123 to the internet. Reach the hub from outside with Home Assistant Cloud or a VPN back into your own network — this box now speaks to your locks, cameras and heating, and its login page is not something to leave on a public port.</p>
           </div>
         </div>
       </article>
@@ -751,7 +883,7 @@
   <section>
     <div class="sec-head">
       <p class="eyebrow">When it doesn't come up</p>
-      <h2>Four failures cover almost everything</h2>
+      <h2>Five failures cover almost everything</h2>
     </div>
     <div class="table-wrap">
       <table>
@@ -760,24 +892,29 @@
         </thead>
         <tbody>
           <tr>
+            <td>Lenovo logo, then nothing</td>
+            <td>Secure Boot still enabled, or the machine is in Legacy boot mode</td>
+            <td>Back into ThinkPad Setup: Secure Boot off, UEFI Only, internal drive first in the boot order</td>
+          </tr>
+          <tr>
             <td>Name never resolves</td>
-            <td>mDNS is blocked or the client is on a guest / isolated network</td>
+            <td>mDNS is blocked, or your phone is on a guest / isolated network</td>
             <td>Try <code>homeassistant:8123</code>, then the raw IP from the router's DHCP list</td>
           </tr>
           <tr>
-            <td>No lights, no link LED</td>
-            <td>Under-powered supply, or a charger negotiating the wrong profile</td>
-            <td>Use the official PSU for the board — 5 V / 5 A USB-C on a Pi 5</td>
+            <td>Everything dies when you shut the lid</td>
+            <td>Suspend on lid close</td>
+            <td>Run it lid-open, or apply the <code>logind.conf</code> change and re-test after each update</td>
           </tr>
           <tr>
-            <td>Rainbow screen or boot loop</td>
-            <td>Wrong image for the board, or a bad write to the card</td>
-            <td>Re-flash with the image named for your exact model; replace suspect SD cards</td>
+            <td>Reboots at random under load</td>
+            <td>A tired battery or a failing charger, not software</td>
+            <td>Remove the external battery and run on mains; swap the charger before you suspect Home Assistant</td>
           </tr>
           <tr>
-            <td>Works, then dies weeks later</td>
-            <td>SD card wear — the classic Pi failure mode</td>
-            <td>Move to an SSD or NVMe and restore from a backup</td>
+            <td>Fine for weeks, then slow</td>
+            <td>A dying SATA disk — likely the original one from this laptop's first life</td>
+            <td>Fit a known-good SSD and restore from a backup</td>
           </tr>
         </tbody>
       </table>
@@ -791,21 +928,23 @@
     </div>
     <ul class="checklist" id="checklist">
       <li><label><input type="checkbox" data-k="a"><span>Add the companion app on your phone<small>Gives you presence detection and push notifications</small></span></label></li>
-      <li><label><input type="checkbox" data-k="b"><span>Connect one device you already own<small>A smart plug or TV proves the pipeline end to end</small></span></label></li>
+      <li><label><input type="checkbox" data-k="b"><span>Connect one device you already own<small>A smart plug or the TV proves the pipeline end to end</small></span></label></li>
       <li><label><input type="checkbox" data-k="c"><span>Build one trivial automation<small>Sunset turns on a lamp — enough to learn the editor</small></span></label></li>
       <li><label><input type="checkbox" data-k="d"><span>Create a second admin account<small>So a forgotten password is not a re-install</small></span></label></li>
-      <li><label><input type="checkbox" data-k="e"><span>Download a backup to your laptop<small>Off-device, not just on the hub's own disk</small></span></label></li>
-      <li><label><input type="checkbox" data-k="f"><span>Decide the radio question<small>Zigbee or Thread work needs a USB stick — plan it before you buy bulbs</small></span></label></li>
+      <li><label><input type="checkbox" data-k="e"><span>Download a backup to your laptop<small>Off-device, not just on the X260's own disk</small></span></label></li>
+      <li><label><input type="checkbox" data-k="f"><span>Pull the mains for 30 seconds<small>Proves whether the battery really is your UPS, before you need it to be</small></span></label></li>
+      <li><label><input type="checkbox" data-k="g"><span>Decide the radio question<small>Zigbee or Thread needs a USB stick — plan it before you buy bulbs</small></span></label></li>
+      <li><label><input type="checkbox" data-k="h"><span>Check the fan after a day<small>A hub that runs hot in a corner is a hub that dies in summer</small></span></label></li>
     </ul>
   </section>
 
   <footer>
-    <p>Steps follow the official Home Assistant installation and onboarding documentation; hardware notes reflect current guidance for dedicated devices. Verify image names and device specifics against the docs before you buy.</p>
+    <p>Steps follow the official Home Assistant generic x86-64 installation and onboarding documentation; hardware notes reflect published ThinkPad X260 specifications. Configurations vary between X260 models — confirm your own RAM, drive and battery before ordering parts.</p>
     <ul>
-      <li><a href="https://www.home-assistant.io/installation/">home-assistant.io/installation</a> — methods and supported hardware</li>
-      <li><a href="https://www.home-assistant.io/installation/raspberrypi/">home-assistant.io/installation/raspberrypi</a> — the Imager flashing flow</li>
+      <li><a href="https://www.home-assistant.io/installation/generic-x86-64/">home-assistant.io/installation/generic-x86-64</a> — the image, UEFI and Secure Boot requirements</li>
       <li><a href="https://www.home-assistant.io/getting-started/onboarding/">home-assistant.io/getting-started/onboarding</a> — the five onboarding screens</li>
-      <li><a href="https://www.raspberrypi.com/software/">raspberrypi.com/software</a> — Raspberry Pi Imager</li>
+      <li><a href="https://psref.lenovo.com/syspool/Sys/PDF/ThinkPad/ThinkPad_X260/ThinkPad_X260_Spec.PDF">psref.lenovo.com</a> — ThinkPad X260 platform specifications</li>
+      <li><a href="https://community.home-assistant.io/t/haos-on-laptop-ignore-lid-close/934718">community.home-assistant.io</a> — the lid-close discussion, unresolved</li>
     </ul>
   </footer>
 
@@ -814,7 +953,7 @@
 <script>
   (function () {
     var boxes = document.querySelectorAll('#checklist input[type="checkbox"]');
-    var KEY = 'ha-install-checklist';
+    var KEY = 'ha-x260-checklist';
     var state = {};
     try { state = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { state = {}; }
 
