@@ -25,7 +25,6 @@
     --step0: .95rem;
     --step1: 1.12rem;
     --step2: 1.45rem;
-    --step3: 2rem;
     --step4: 3.1rem;
 
     color-scheme: light;
@@ -83,7 +82,7 @@
     gap: clamp(2rem, 5vw, 3.25rem);
   }
 
-  h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; }
+  h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; margin: 0; }
 
   .eyebrow {
     font-family: var(--mono);
@@ -106,10 +105,7 @@
     max-width: 17ch;
   }
 
-  .masthead h1 em {
-    font-style: normal;
-    color: var(--accent);
-  }
+  .masthead h1 em { font-style: normal; color: var(--accent); }
 
   .standfirst {
     max-width: 62ch;
@@ -117,8 +113,6 @@
     color: var(--ink-2);
     margin: 0;
   }
-
-  /* ---------- time budget ---------- */
 
   .budget {
     display: flex;
@@ -129,12 +123,7 @@
     border-top: 2px solid var(--ink);
   }
 
-  .budget dl {
-    display: flex;
-    align-items: baseline;
-    gap: .5rem;
-    margin: 0;
-  }
+  .budget dl { display: flex; align-items: baseline; gap: .5rem; margin: 0; }
 
   .budget dt {
     font-family: var(--mono);
@@ -152,19 +141,56 @@
     font-variant-numeric: tabular-nums;
   }
 
-  /* ---------- section scaffolding ---------- */
+  /* ---------- sections ---------- */
 
   section { display: flex; flex-direction: column; gap: 1.25rem; }
 
   .sec-head { display: flex; flex-direction: column; gap: .35rem; }
 
-  .sec-head h2 {
-    font-size: var(--step2);
-    font-weight: 700;
-    letter-spacing: -.015em;
-  }
+  .sec-head h2 { font-size: var(--step2); font-weight: 700; letter-spacing: -.015em; }
 
   .sec-head p { margin: 0; color: var(--ink-2); max-width: 65ch; }
+
+  /* ---------- primer ---------- */
+
+  .primer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: 0;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+
+  .primer > div {
+    padding: 1rem 1.15rem 1.15rem;
+    border-right: 1px solid var(--rule);
+    display: flex;
+    flex-direction: column;
+    gap: .4rem;
+  }
+
+  .primer > div:last-child { border-right: none; }
+
+  @media (max-width: 46rem) {
+    .primer > div { border-right: none; border-bottom: 1px solid var(--rule); }
+    .primer > div:last-child { border-bottom: none; }
+  }
+
+  .primer .myth {
+    font-family: var(--mono);
+    font-size: .74rem;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+    text-decoration: line-through;
+    text-decoration-thickness: 1px;
+  }
+
+  .primer h4 { font-size: var(--step0); font-weight: 700; }
+  .primer p { margin: 0; font-size: .87rem; color: var(--ink-2); }
 
   /* ---------- the machine ---------- */
 
@@ -225,45 +251,30 @@
     gap: .7rem;
   }
 
-  .audit h3 { font-size: var(--step0); font-weight: 700; letter-spacing: .01em; }
+  .audit h3 { font-size: var(--step0); font-weight: 700; }
 
   .audit ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: .55rem;
+    margin: 0; padding: 0; list-style: none;
+    display: flex; flex-direction: column; gap: .55rem;
     font-size: .86rem;
   }
 
   .audit li { display: grid; grid-template-columns: auto 1fr; gap: .7rem; align-items: start; }
 
-  .audit .mark {
-    font-family: var(--mono);
-    font-size: .72rem;
-    color: var(--accent);
-    padding-top: .2rem;
-  }
+  .audit .mark { font-family: var(--mono); font-size: .72rem; color: var(--accent); padding-top: .2rem; }
 
   .audit small { display: block; color: var(--ink-2); font-size: .79rem; line-height: 1.45; }
 
-  /* ---------- fork ---------- */
+  /* ---------- bench ---------- */
 
-  .fork {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
-    gap: 1rem;
-  }
+  .bench { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1rem; }
 
   .box {
     background: var(--surface);
     border: 1px solid var(--rule);
     border-radius: 4px;
     padding: 1.1rem 1.15rem 1.25rem;
-    display: flex;
-    flex-direction: column;
-    gap: .7rem;
+    display: flex; flex-direction: column; gap: .7rem;
     box-shadow: var(--shadow);
   }
 
@@ -285,14 +296,11 @@
   }
 
   .box .tag.alt { background: var(--copper-soft); color: var(--copper); }
-
   .box p { margin: 0; color: var(--ink-2); font-size: .9rem; }
-  .box p.who { color: var(--ink); font-size: .86rem; border-top: 1px solid var(--rule); padding-top: .7rem; }
-  .box p.who b { font-family: var(--mono); font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); display: block; font-weight: 400; }
 
-  /* ---------- the spine ---------- */
+  /* ---------- spine ---------- */
 
-  .spine { display: flex; flex-direction: column; gap: 0; }
+  .spine { display: flex; flex-direction: column; }
 
   .step {
     display: grid;
@@ -316,11 +324,9 @@
 
   .step .num {
     grid-row: 1 / span 2;
-    width: 3.25rem;
-    height: 3.25rem;
+    width: 3.25rem; height: 3.25rem;
     border-radius: 50%;
-    display: grid;
-    place-items: center;
+    display: grid; place-items: center;
     font-family: var(--display);
     font-weight: 800;
     font-size: var(--step1);
@@ -334,46 +340,25 @@
   .step .num.wait { background: var(--copper); }
 
   .step-head {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: .5rem .9rem;
-    min-height: 3.25rem;
+    display: flex; flex-wrap: wrap; align-items: baseline;
+    gap: .5rem .9rem; min-height: 3.25rem;
   }
 
-  .step-head h3 {
-    font-size: var(--step2);
-    font-weight: 700;
-    letter-spacing: -.02em;
-    line-height: 1.15;
-  }
+  .step-head h3 { font-size: var(--step2); font-weight: 700; letter-spacing: -.02em; line-height: 1.15; }
 
-  .step-head .clock {
-    font-family: var(--mono);
-    font-size: var(--step-1);
-    color: var(--ink-2);
-    white-space: nowrap;
-  }
+  .step-head .clock { font-family: var(--mono); font-size: var(--step-1); color: var(--ink-2); white-space: nowrap; }
 
-  .step-body {
-    display: flex;
-    flex-direction: column;
-    gap: .85rem;
-    padding-top: .35rem;
-  }
+  .step-body { display: flex; flex-direction: column; gap: .85rem; padding-top: .35rem; }
 
   .step-body p { margin: 0; max-width: 66ch; }
 
   .step-body ol.sub, .step-body ul.sub {
-    margin: 0;
-    padding-left: 1.15rem;
-    display: flex;
-    flex-direction: column;
-    gap: .4rem;
+    margin: 0; padding-left: 1.15rem;
+    display: flex; flex-direction: column; gap: .4rem;
     max-width: 66ch;
   }
 
-  .step-body ol.sub::marker { color: var(--ink-2); }
+  .step-body ol.sub::marker, .step-body ul.sub::marker { color: var(--ink-2); }
 
   code {
     font-family: var(--mono);
@@ -383,63 +368,25 @@
     border-radius: 2px;
   }
 
-  .kbd-path {
-    display: block;
-    font-family: var(--mono);
+  .terminal {
     background: var(--surface);
     border: 1px solid var(--rule);
     border-left: 3px solid var(--accent);
     border-radius: 0 3px 3px 0;
-    padding: .7rem .85rem;
-    font-size: .82rem;
-    line-height: 1.7;
+    padding: .8rem .9rem;
     overflow-x: auto;
-    white-space: nowrap;
+    font-family: var(--mono);
+    font-size: .8rem;
+    line-height: 1.85;
+    white-space: pre;
     color: var(--ink);
   }
 
-  .kbd-path b { color: var(--accent); font-weight: 500; }
-
-  .route {
-    border: 1px solid var(--rule);
-    border-radius: 4px;
-    background: var(--surface);
-    overflow: hidden;
-  }
-
-  .route + .route { margin-top: -.1rem; }
-
-  .route > h4 {
-    margin: 0;
-    font-family: var(--display);
-    font-size: .95rem;
-    font-weight: 700;
-    padding: .6rem .85rem;
-    background: var(--surface-2);
-    border-bottom: 1px solid var(--rule);
-    display: flex;
-    flex-wrap: wrap;
-    gap: .5rem .8rem;
-    align-items: baseline;
-  }
-
-  .route > h4 span {
-    font-family: var(--mono);
-    font-weight: 400;
-    font-size: .72rem;
-    letter-spacing: .08em;
-    text-transform: uppercase;
-    color: var(--ink-2);
-  }
-
-  .route ol { margin: 0; padding: .85rem .85rem .95rem 2rem; display: flex; flex-direction: column; gap: .4rem; font-size: .9rem; }
-  .route ol::marker { color: var(--ink-2); }
+  .terminal .c { color: var(--ink-2); }
+  .terminal .p { color: var(--accent); }
 
   .urlbar {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: .6rem;
+    display: flex; flex-wrap: wrap; align-items: center; gap: .6rem;
     background: var(--surface);
     border: 1px solid var(--rule);
     border-radius: 3px;
@@ -490,7 +437,7 @@
 
   figcaption { font-size: .82rem; color: var(--ink-2); font-family: var(--mono); }
 
-  /* ---------- troubleshooting ---------- */
+  /* ---------- table ---------- */
 
   .table-wrap { overflow-x: auto; border: 1px solid var(--rule); border-radius: 4px; background: var(--surface); }
 
@@ -514,15 +461,12 @@
   }
 
   tbody tr:last-child td { border-bottom: none; }
-
   td:first-child { font-weight: 600; }
 
   /* ---------- checklist ---------- */
 
   .checklist {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+    list-style: none; margin: 0; padding: 0;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
     gap: .1rem 1.5rem;
@@ -531,33 +475,23 @@
   .checklist li { border-bottom: 1px solid var(--rule); }
 
   .checklist label {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: .7rem;
-    align-items: start;
-    padding: .6rem 0;
-    cursor: pointer;
+    display: grid; grid-template-columns: auto 1fr; gap: .7rem;
+    align-items: start; padding: .6rem 0; cursor: pointer;
   }
 
   .checklist input {
-    appearance: none;
-    -webkit-appearance: none;
-    width: 1.05rem;
-    height: 1.05rem;
-    margin: .18rem 0 0;
+    appearance: none; -webkit-appearance: none;
+    width: 1.05rem; height: 1.05rem; margin: .18rem 0 0;
     border: 1.5px solid var(--ink-2);
     border-radius: 2px;
     background: transparent;
-    display: grid;
-    place-content: center;
-    flex: none;
-    cursor: pointer;
+    display: grid; place-content: center;
+    flex: none; cursor: pointer;
   }
 
   .checklist input::after {
     content: "";
-    width: .55rem;
-    height: .3rem;
+    width: .55rem; height: .3rem;
     border-left: 2px solid var(--surface);
     border-bottom: 2px solid var(--surface);
     transform: rotate(-45deg) scale(0);
@@ -576,9 +510,7 @@
   footer {
     border-top: 1px solid var(--rule);
     padding-top: 1.25rem;
-    display: flex;
-    flex-direction: column;
-    gap: .6rem;
+    display: flex; flex-direction: column; gap: .6rem;
     color: var(--ink-2);
     font-size: .82rem;
   }
@@ -601,53 +533,77 @@
 <div class="page">
 
   <header class="masthead">
-    <p class="eyebrow">Home Assistant OS · ThinkPad X260</p>
-    <h1>Retire the laptop. Promote it to <em>smart home hub</em>.</h1>
+    <p class="eyebrow">Home Assistant OS · HP 255 G4</p>
+    <h1>Yes, your old laptop <em>is</em> the dedicated device.</h1>
     <p class="standfirst">
-      A ThinkPad X260 makes a better Home Assistant box than most things you could buy: wired
-      Ethernet, a Skylake CPU with headroom to spare, and a battery that is, functionally, a
-      built-in UPS. Here is the whole install — seven steps, no command line after the flash.
+      No Raspberry Pi, no Docker, no second machine to keep running. You wipe Windows off the
+      HP 255 G4 and install Home Assistant Operating System in its place — the laptop stops being
+      a laptop and becomes an appliance that boots straight into your smart home.
     </p>
     <div class="budget">
-      <dl><dt>Hands-on</dt><dd>~45 min</dd></dl>
+      <dl><dt>Hands-on</dt><dd>~1 hour</dd></dl>
       <dl><dt>Waiting on first boot</dt><dd>~20 min</dd></dl>
-      <dl><dt>Idle draw</dt><dd>~10–15 W</dd></dl>
-      <dl><dt>To spend</dt><dd>£0</dd></dl>
+      <dl><dt>Idle draw</dt><dd>~15 W</dd></dl>
+      <dl><dt>To spend</dt><dd>£0, or ~£20 for an SSD</dd></dl>
     </div>
   </header>
 
   <section>
     <div class="sec-head">
+      <p class="eyebrow">First, what this actually is</p>
+      <h2>Three things it isn't</h2>
+    </div>
+    <div class="primer">
+      <div>
+        <span class="myth">Flashing firmware</span>
+        <h4>It's an operating system</h4>
+        <p>You are not touching the BIOS chip. You write Home Assistant OS onto the hard drive, exactly where Windows lives now. Windows and every file on that disk are gone.</p>
+      </div>
+      <div>
+        <span class="myth">You need Docker</span>
+        <h4>It's already inside</h4>
+        <p>Home Assistant OS ships the container engine, the Supervisor and the add-on store built in. You never type a Docker command, and it updates itself from the web interface.</p>
+      </div>
+      <div>
+        <span class="myth">You need a Raspberry Pi</span>
+        <h4>A laptop is the same thing</h4>
+        <p>There is an official image for ordinary PCs. A laptop is simply a PC with a screen and a battery attached — and the battery is a bonus, not a problem.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
       <p class="eyebrow">Step 0 — the machine</p>
-      <h2>What you already have, and what to check before you start</h2>
+      <h2>The 255 G4 will do this. Here's what it will and won't run.</h2>
     </div>
     <div class="machine">
       <div class="verdict">
-        <h3>Why the X260 is a good hub</h3>
+        <h3>Honest verdict: good enough, with a ceiling</h3>
         <p>
-          Three things matter in a hub, and this laptop has all of them. <b>Gigabit Ethernet on
-          board</b>, so no Wi-Fi dropouts between your automations and your lights. <b>A dual
-          battery</b> — Lenovo's Power Bridge pairs an internal cell with a hot-swappable external
-          one — which rides out short power cuts without you buying a UPS. And <b>x86-64 with real
-          headroom</b>: cameras, voice pipelines and local add-ons that choke a Raspberry Pi run
-          comfortably here.
+          The 255 G4 is a 2015 budget machine — an AMD E1 or A6 chip, up to 8 GB of RAM, and
+          <b>100 Mbit Ethernet rather than gigabit</b>. None of that blocks Home Assistant, whose
+          normal traffic is tiny. It does set a ceiling: this is a hub for
+          <b>lights, plugs, sensors, heating, presence and dashboards</b>, comfortably. It is
+          <b>not</b> the box for continuous camera recording or local voice assistants — those want
+          far more CPU than a 15 W 2015 APU has.
         </p>
         <dl class="ledger">
-          <dt>CPU</dt><dd>6th-gen Intel Core U-series — ample for Home Assistant</dd>
-          <dt>RAM</dt><dd><b>One SODIMM slot, 16 GB max.</b> 8 GB is plenty; 4 GB is tight if you want add-ons</dd>
-          <dt>Disk</dt><dd><b>2.5-inch SATA bay.</b> This is the drive you will flash — an SSD, ideally 120 GB or more</dd>
-          <dt>Network</dt><dd>Gigabit Ethernet — use it, not Wi-Fi</dd>
-          <dt>Radios</dt><dd>None usable for Zigbee or Thread. Budget a USB stick if you want them</dd>
+          <dt>CPU</dt><dd>AMD E1-6015 (dual-core) or A6-6310 / A8-7410 (quad-core). All 64-bit — the image will run</dd>
+          <dt>RAM</dt><dd><b>Two slots, 8 GB maximum.</b> 4 GB works; 8 GB gives room for add-ons</dd>
+          <dt>Disk</dt><dd><b>2.5-inch SATA.</b> Most shipped with a 5400 rpm hard disk — see the bench list below</dd>
+          <dt>Network</dt><dd>Realtek 10/100 Ethernet. Fine for this job; use it, not Wi-Fi</dd>
+          <dt>Radios</dt><dd>Nothing usable for Zigbee or Thread. That's a USB stick, later</dd>
         </dl>
       </div>
       <div class="audit">
-        <h3>Check these before you commit</h3>
+        <h3>Check these before you start</h3>
         <ul>
-          <li><span class="mark">01</span><span>Back up anything still on the disk<small>The flash overwrites the whole drive. There is no partition step and no undo.</small></span></li>
-          <li><span class="mark">02</span><span>Inspect the external battery<small>If it is swollen or the case no longer sits flat, take it out and bin it responsibly. Run on mains only.</small></span></li>
-          <li><span class="mark">03</span><span>Confirm it holds charge at all<small>A dead battery is fine — it just means no UPS. A degraded one that reboots under load is not.</small></span></li>
-          <li><span class="mark">04</span><span>Blow out the fan<small>This box will now run 24/7. Five minutes with compressed air buys you years.</small></span></li>
-          <li><span class="mark">05</span><span>Decide where it lives<small>Next to the router, lid open, hard surface, not in a cupboard.</small></span></li>
+          <li><span class="mark">01</span><span>Copy off every file you care about<small>Photos, documents, browser passwords. The install erases the whole disk with no undo and no partition step.</small></span></li>
+          <li><span class="mark">02</span><span>Note your Windows licence is going<small>It stays tied to the hardware, but you're not coming back mid-week — decide now.</small></span></li>
+          <li><span class="mark">03</span><span>Check the battery<small>If it's swollen, remove it and run on mains. A healthy one gives you a free mini-UPS; a dead one costs you nothing.</small></span></li>
+          <li><span class="mark">04</span><span>Blow out the fan vent<small>This machine is about to run 24/7 for years. Five minutes with compressed air is the cheapest insurance here.</small></span></li>
+          <li><span class="mark">05</span><span>Pick its spot<small>Next to the router, lid open, hard surface, not shut in a cupboard.</small></span></li>
         </ul>
       </div>
     </div>
@@ -655,33 +611,24 @@
 
   <section>
     <div class="sec-head">
-      <p class="eyebrow">One decision, before you flash</p>
-      <h2>Give the whole laptop to Home Assistant, or virtualise it?</h2>
-      <p>
-        The rest of this guide assumes the first. The second is worth ten minutes' thought only if
-        you already know you want the machine doing more than one job.
-      </p>
+      <p class="eyebrow">On the bench</p>
+      <h2>What to have ready before step 1</h2>
     </div>
-    <div class="fork">
+    <div class="bench">
       <div class="box pick">
-        <span class="tag">Recommended</span>
-        <h3>Home Assistant OS, bare metal</h3>
-        <p>
-          Write Home Assistant OS straight onto the SATA drive. The laptop becomes an appliance:
-          it boots into Home Assistant, updates itself, and has no login shell to maintain.
-          Supervisor, the add-on store and one-click backups all come included.
-        </p>
-        <p class="who"><b>Pick this if</b> the laptop has no other job. Simplest to install, simplest to live with.</p>
+        <span class="tag">Required</span>
+        <h3>A USB stick, 8 GB+</h3>
+        <p>It becomes a temporary Ubuntu boot stick — the tool you use to write Home Assistant OS onto the laptop's own drive. Its contents get erased; you get the stick back afterwards.</p>
+      </div>
+      <div class="box pick">
+        <span class="tag">Required</span>
+        <h3>A second working computer</h3>
+        <p>Any Windows, Mac or Linux machine, just to make that USB stick. Plus an Ethernet cable and a free port on your router.</p>
       </div>
       <div class="box">
-        <span class="tag alt">More work</span>
-        <h3>Proxmox, with Home Assistant OS in a VM</h3>
-        <p>
-          Install a hypervisor first, then run Home Assistant OS as one virtual machine beside
-          others. You gain whole-system snapshots before every risky change, and room for a
-          network-wide ad blocker or a media server on the same box.
-        </p>
-        <p class="who"><b>Pick this if</b> you want snapshots or a second service, and don't mind maintaining a hypervisor.</p>
+        <span class="tag alt">Recommended</span>
+        <h3>A 2.5-inch SATA SSD</h3>
+        <p>120–240 GB is ample. Ten-year-old spinning disks are the most likely thing to fail in this build, and swapping it now means you install once. Skip it if the machine already has an SSD.</p>
       </div>
     </div>
   </section>
@@ -697,61 +644,39 @@
       <article class="step">
         <div class="num">1</div>
         <div class="step-head">
-          <h3>Set up the BIOS first</h3>
-          <span class="clock">10 min</span>
+          <h3>Rescue your files, then let the disk go</h3>
+          <span class="clock">Varies</span>
         </div>
         <div class="step-body">
           <p>
-            Do this before flashing — a machine that will not boot the new drive is much harder to
-            diagnose afterwards. Power on and tap <code>F1</code> (or <code>Enter</code>, then
-            <code>F1</code>) to reach ThinkPad Setup.
+            Boot the HP into Windows one last time and copy anything you want off it — to a second
+            USB stick, an external drive, or cloud storage. From step 5 onwards that disk is
+            overwritten in a single pass. There is no “keep my files” option in this process,
+            because Home Assistant OS is not a Windows-style installer at all.
           </p>
-          <ul class="sub">
-            <li><b>Security → Secure Boot → Disabled.</b> Non-negotiable: Home Assistant OS is not signed for Secure Boot and simply will not start with it on.</li>
-            <li><b>Startup → UEFI/Legacy Boot → UEFI Only.</b> The generic x86-64 image is built to boot UEFI.</li>
-            <li><b>Boot order:</b> put the internal drive first once you're done, and USB first while you're installing.</li>
-            <li><b>Config → Power:</b> enable Wake on LAN if it's offered — useful later, harmless now.</li>
-            <li>Note the drive's own settings: if the disk has a BIOS password or hardware encryption set from a previous life, clear it now.</li>
-          </ul>
         </div>
       </article>
 
       <article class="step">
         <div class="num">2</div>
         <div class="step-head">
-          <h3>Write Home Assistant OS to the internal drive</h3>
-          <span class="clock">20 min</span>
+          <h3>Set the BIOS up correctly</h3>
+          <span class="clock">10 min</span>
         </div>
         <div class="step-body">
           <p>
-            This is the one place a laptop differs from a mini PC: you cannot write an operating
-            system onto the disk a machine is currently running from. Pick whichever route matches
-            the tools on your bench. You want the file named:
+            Do this before writing anything. Power on and tap <code>F10</code> repeatedly to enter
+            HP Computer Setup — <code>Esc</code> first gives you the menu if F10 doesn't catch it.
           </p>
-          <span class="kbd-path">haos_generic-x86-64-<b>&lt;version&gt;</b>.img.xz</span>
-          <div class="route">
-            <h4>Route A — pull the drive <span>Easiest, if you own a USB-SATA adapter</span></h4>
-            <ol>
-              <li>Power off, unplug, remove the external battery, and disable the internal battery in <b>Config → Power</b> first.</li>
-              <li>Undo the bottom cover and lift out the 2.5-inch drive in its caddy.</li>
-              <li>Connect it to another computer with a USB-SATA adapter or dock.</li>
-              <li>Write the image with <b>Balena Etcher</b> or Raspberry Pi Imager's <b>Use custom</b> option — both read <code>.img.xz</code> directly, no unpacking.</li>
-              <li>Put the drive back in the laptop.</li>
-            </ol>
-          </div>
-          <div class="route">
-            <h4>Route B — flash it in place <span>No disassembly, one command</span></h4>
-            <ol>
-              <li>Write a normal Ubuntu desktop image to a USB stick on any computer.</li>
-              <li>Boot the X260 from that stick and choose <b>Try Ubuntu</b> — a live session, nothing installed.</li>
-              <li>Identify the internal disk with <code>lsblk</code>. It is the one whose size matches the laptop's drive, typically <code>/dev/sda</code>.</li>
-              <li>Decompress and write in one pass, replacing the device name with the one you just confirmed.</li>
-              <li>Shut down, remove the stick, boot from the internal drive.</li>
-            </ol>
-          </div>
+          <ul class="sub">
+            <li><b>Security → Secure Boot Configuration → Secure Boot: Disable.</b> Home Assistant OS is not signed for Secure Boot and will not start with it on.</li>
+            <li><b>Legacy Support: Disable.</b> You want UEFI booting — that's what the image expects.</li>
+            <li><b>Boot order:</b> USB first for now. You'll put the internal drive back on top once it's installed.</li>
+            <li>Press <code>F10</code> to save. HP will show a four-digit code and ask you to type it and press Enter — that's normal, and it's confirming the Secure Boot change.</li>
+          </ul>
           <div class="note">
-            <span class="label">Check twice</span>
-            <p>Route B writes to a raw device with no confirmation prompt. Read the output of <code>lsblk</code> carefully and make sure the target is the internal disk, not the USB stick you booted from — the command will happily destroy either.</p>
+            <span class="label">Fitting an SSD</span>
+            <p>If you bought one, now is the moment: power off, unplug, remove the battery, and swap the 2.5-inch drive before you go any further. There's nothing to clone — the new disk gets written from scratch in step 5.</p>
           </div>
         </div>
       </article>
@@ -759,24 +684,97 @@
       <article class="step">
         <div class="num">3</div>
         <div class="step-head">
-          <h3>Cable it up, then power on</h3>
-          <span class="clock">2 min</span>
+          <h3>Make the Ubuntu boot stick</h3>
+          <span class="clock">15 min</span>
         </div>
         <div class="step-body">
           <p>
-            Ethernet into the router, charger in, lid open for now. The hub, the router and the
-            laptop or phone you will onboard from all need to sit on the same network segment —
-            guest networks and Wi-Fi client isolation break the <code>.local</code> lookup you are
-            about to use.
+            On your <em>other</em> computer. Ubuntu here is only a temporary toolbox — you are not
+            installing it, just borrowing a working Linux long enough to write to the HP's disk.
+          </p>
+          <ol class="sub">
+            <li>Download the <b>Ubuntu Desktop</b> ISO from ubuntu.com.</li>
+            <li>Download <b>Balena Etcher</b> — it runs on Windows, Mac and Linux.</li>
+            <li>In Etcher: <b>Flash from file</b> (the Ubuntu ISO) → <b>Select target</b> (your USB stick) → <b>Flash</b>.</li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="step">
+        <div class="num">4</div>
+        <div class="step-head">
+          <h3>Boot the HP from the stick</h3>
+          <span class="clock">5 min</span>
+        </div>
+        <div class="step-body">
+          <p>
+            Plug the stick into the HP, connect the Ethernet cable to your router, and power on
+            tapping <code>F9</code> for the boot menu. Choose the USB device, then choose
+            <b>Try Ubuntu</b> — <em>not</em> Install Ubuntu. You'll land on a normal desktop
+            running entirely from the stick, with the internal disk untouched.
+          </p>
+          <p>Confirm you have internet: open Firefox and load any page. You need it for the next step.</p>
+        </div>
+      </article>
+
+      <article class="step">
+        <div class="num">5</div>
+        <div class="step-head">
+          <h3>Write Home Assistant OS onto the internal disk</h3>
+          <span class="clock">15 min</span>
+        </div>
+        <div class="step-body">
+          <p>
+            In the live Ubuntu session, open Firefox and go to the Home Assistant OS releases page
+            on GitHub. Under the newest release, find the file for generic PCs — its name looks
+            like <code>haos_generic-x86-64-&lt;version&gt;.img.xz</code> — and right-click to copy
+            its download link.
+          </p>
+          <p>Then open <b>Terminal</b> and run these, one line at a time:</p>
+          <div class="terminal"><span class="c"># 1. list the disks — find the internal one by its size</span>
+<span class="p">$</span> lsblk
+
+<span class="c"># 2. download the image (paste the link you copied)</span>
+<span class="p">$</span> wget &lt;paste-the-link-here&gt;
+
+<span class="c"># 3. write it — replace sda if lsblk showed a different name</span>
+<span class="p">$</span> xzcat haos_generic-x86-64-*.img.xz \
+    | sudo dd of=/dev/sda bs=4M status=progress conv=fsync
+
+<span class="c"># 4. flush everything to disk before powering off</span>
+<span class="p">$</span> sync</div>
+          <div class="note">
+            <span class="label">Read this twice</span>
+            <p>In <code>lsblk</code>, the internal disk is the one whose size matches the laptop's drive — 500 GB, 240 GB, whatever you fitted. Your USB stick is the small one, and it is probably <code>sdb</code>. Point <code>dd</code> at the wrong name and it will erase the stick instead, silently and without asking.</p>
+          </div>
+          <p>
+            When it finishes, shut down, pull out the USB stick, and put the internal drive first
+            in the boot order (<code>F10</code> again). Power on.
+          </p>
+        </div>
+      </article>
+
+      <article class="step">
+        <div class="num wait">6</div>
+        <div class="step-head">
+          <h3>Leave it alone for twenty minutes</h3>
+          <span class="clock">~20 min, unattended</span>
+        </div>
+        <div class="step-body">
+          <p>
+            The first boot is not idle. Home Assistant OS expands its partitions, pulls its
+            components and starts the Supervisor. The screen will sit on scrolling text or a
+            near-blank console — that is what a working install looks like. Do not pull the power;
+            that's the most common way to end up starting over.
           </p>
           <figure>
             <div class="topology">
-              <svg viewBox="0 0 660 150" role="img" aria-label="The ThinkPad connects to the router by Ethernet; your browser joins the same network over Wi-Fi.">
+              <svg viewBox="0 0 660 150" role="img" aria-label="The HP connects to the router by Ethernet; your phone or laptop reaches it over the same network.">
                 <rect x="1" y="1" width="658" height="148" rx="4" fill="none" stroke="var(--rule)" stroke-dasharray="4 4"/>
                 <text x="16" y="24" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--ink-2)" letter-spacing="1.2">ONE FLAT LAN</text>
 
                 <rect x="30" y="52" width="150" height="62" rx="4" fill="var(--accent-soft)" stroke="var(--accent)"/>
-                <text x="105" y="79" text-anchor="middle" font-family="Archivo, sans-serif" font-weight="700" font-size="15" fill="var(--ink)">The X260</text>
+                <text x="105" y="79" text-anchor="middle" font-family="Archivo, sans-serif" font-weight="700" font-size="15" fill="var(--ink)">The HP</text>
                 <text x="105" y="97" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--ink-2)">port 8123</text>
 
                 <line x1="180" y1="83" x2="264" y2="83" stroke="var(--accent)" stroke-width="2.5"/>
@@ -794,32 +792,16 @@
                 <text x="555" y="97" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--ink-2)">phone or laptop</text>
               </svg>
             </div>
-            <figcaption>Onboarding is served by the X260 itself — no app, no account, no cloud in the loop.</figcaption>
+            <figcaption>You set it up from another device — the HP's own screen is only ever a status display now.</figcaption>
           </figure>
         </div>
       </article>
 
       <article class="step">
-        <div class="num wait">4</div>
+        <div class="num">7</div>
         <div class="step-head">
-          <h3>Leave it alone for twenty minutes</h3>
-          <span class="clock">~20 min, unattended</span>
-        </div>
-        <div class="step-body">
-          <p>
-            The first boot is not idle. Home Assistant OS expands its partitions, pulls its
-            container images and starts the Supervisor. The screen will sit on a console log that
-            looks stuck — it isn't. Pulling the power here is the most common way to end up
-            re-flashing.
-          </p>
-        </div>
-      </article>
-
-      <article class="step">
-        <div class="num">5</div>
-        <div class="step-head">
-          <h3>Open the hub from another device</h3>
-          <span class="clock">1 min</span>
+          <h3>Open it in a browser and onboard</h3>
+          <span class="clock">10 min</span>
         </div>
         <div class="step-body">
           <div class="urlbar">
@@ -827,52 +809,31 @@
             <span class="url">http://<b>homeassistant.local</b>:8123</span>
           </div>
           <p>
-            A “Preparing Home Assistant” screen means it is still working — wait rather than
-            reloading. If the name doesn't resolve, walk down the ladder:
-            <code>homeassistant:8123</code>, then the IP address your router handed out, from its
-            DHCP client list.
+            From your phone or the other computer. “Preparing Home Assistant” means it's still
+            working — wait rather than reloading. If the name doesn't resolve, try
+            <code>homeassistant:8123</code>, then the IP address from your router's device list.
           </p>
-        </div>
-      </article>
-
-      <article class="step">
-        <div class="num">6</div>
-        <div class="step-head">
-          <h3>Onboard: account, home, location</h3>
-          <span class="clock">5 min</span>
-        </div>
-        <div class="step-body">
-          <p>Five browser screens, no config files. Everything is editable later except the username on the owner account.</p>
+          <p>Then five screens, no config files and no command line:</p>
           <ol class="sub">
-            <li><b>Create the owner account.</b> This is the administrator — give it a real password, not a placeholder you plan to change.</li>
+            <li><b>Create the owner account</b> — the administrator. Give it a real password.</li>
             <li><b>Name your home</b> and drop its pin on the map.</li>
-            <li><b>Set location details</b> — time zone, elevation, unit system. Sunrise and sunset triggers, weather and presence all read from these, so a lazy pin makes bad automations later.</li>
-            <li><b>Choose your analytics setting.</b> Opt in or out; it is genuinely optional.</li>
-            <li><b>Review discovered devices.</b> Anything already broadcasting on your network appears here — add what you recognise, leave the rest.</li>
+            <li><b>Set time zone, elevation and units.</b> Sunset triggers and weather read from these, so a lazy pin makes bad automations later.</li>
+            <li><b>Choose your analytics setting</b> — genuinely optional.</li>
+            <li><b>Review discovered devices</b> — whatever is already on your network shows up here.</li>
           </ol>
-        </div>
-      </article>
-
-      <article class="step">
-        <div class="num">7</div>
-        <div class="step-head">
-          <h3>Settle it in: address, lid, backups</h3>
-          <span class="clock">10 min</span>
-        </div>
-        <div class="step-body">
-          <p>Three things to do while there is still nothing to lose.</p>
+          <p>Finally, three things worth doing straight away:</p>
           <ol class="sub">
-            <li><b>Reserve its address.</b> In your router, give the X260's MAC a fixed DHCP lease. Every integration you add will point at it.</li>
-            <li><b>Turn on backups.</b> <code>Settings → System → Backups</code>: enable the automatic schedule and send copies off the device — a network share or Home Assistant Cloud. A restore is a single file.</li>
-            <li><b>Update, then reboot once</b> from <code>Settings → System → Updates</code>, so you start current and clean.</li>
+            <li><b>Reserve its address</b> in your router, as a fixed DHCP lease against the HP's MAC.</li>
+            <li><b>Turn on backups</b> in <code>Settings → System → Backups</code>, with copies stored off the device.</li>
+            <li><b>Apply updates</b> in <code>Settings → System → Updates</code>, then reboot once.</li>
           </ol>
           <div class="note">
             <span class="label">The lid</span>
-            <p>Home Assistant OS can suspend when the lid closes, which takes your whole smart home down with it. The reliable answer is to leave the lid open. If you must close it, log in as <code>root</code> at the physical console and set <code>HandleLidSwitch=ignore</code> in <code>/etc/systemd/logind.conf</code> — but treat that as unproven on your machine: test it for an hour, and re-check after every OS update, because the system partition is managed by the OS.</p>
+            <p>Home Assistant OS may suspend when you close the lid, taking the whole smart home down with it. The dependable answer is to leave the lid open. There is a <code>logind.conf</code> change people apply from the console, but reports are mixed and the system partition is managed by the OS — so treat it as unproven, test it, and re-check after updates.</p>
           </div>
           <div class="note">
-            <span class="label">Remote</span>
-            <p>Do not port-forward 8123 to the internet. Reach the hub from outside with Home Assistant Cloud or a VPN back into your own network — this box now speaks to your locks, cameras and heating, and its login page is not something to leave on a public port.</p>
+            <span class="label">Remote access</span>
+            <p>Do not port-forward 8123 to the internet. Use Home Assistant Cloud or a VPN into your own network. This box now speaks to your locks, cameras and heating; its login page does not belong on a public port.</p>
           </div>
         </div>
       </article>
@@ -892,29 +853,29 @@
         </thead>
         <tbody>
           <tr>
-            <td>Lenovo logo, then nothing</td>
-            <td>Secure Boot still enabled, or the machine is in Legacy boot mode</td>
-            <td>Back into ThinkPad Setup: Secure Boot off, UEFI Only, internal drive first in the boot order</td>
+            <td>HP logo, then nothing</td>
+            <td>Secure Boot still on, or Legacy Support enabled</td>
+            <td>F10 → Security → Secure Boot off, Legacy Support off, internal drive first in boot order</td>
           </tr>
           <tr>
-            <td>Name never resolves</td>
-            <td>mDNS is blocked, or your phone is on a guest / isolated network</td>
-            <td>Try <code>homeassistant:8123</code>, then the raw IP from the router's DHCP list</td>
+            <td>The stick won't boot</td>
+            <td>Boot order, or an Etcher write that didn't verify</td>
+            <td>Tap F9 for the one-off boot menu; if the stick isn't listed, re-flash it</td>
+          </tr>
+          <tr>
+            <td><code>homeassistant.local</code> never resolves</td>
+            <td>mDNS blocked, or your phone is on a guest network</td>
+            <td>Try <code>homeassistant:8123</code>, then the raw IP from the router's device list</td>
           </tr>
           <tr>
             <td>Everything dies when you shut the lid</td>
             <td>Suspend on lid close</td>
-            <td>Run it lid-open, or apply the <code>logind.conf</code> change and re-test after each update</td>
+            <td>Run it lid-open — the simple, reliable fix</td>
           </tr>
           <tr>
-            <td>Reboots at random under load</td>
-            <td>A tired battery or a failing charger, not software</td>
-            <td>Remove the external battery and run on mains; swap the charger before you suspect Home Assistant</td>
-          </tr>
-          <tr>
-            <td>Fine for weeks, then slow</td>
-            <td>A dying SATA disk — likely the original one from this laptop's first life</td>
-            <td>Fit a known-good SSD and restore from a backup</td>
+            <td>Sluggish, or fails after weeks</td>
+            <td>The original 2015 hard disk giving up</td>
+            <td>Fit a SATA SSD and restore from a backup — a ten-minute job if you have one</td>
           </tr>
         </tbody>
       </table>
@@ -928,23 +889,23 @@
     </div>
     <ul class="checklist" id="checklist">
       <li><label><input type="checkbox" data-k="a"><span>Add the companion app on your phone<small>Gives you presence detection and push notifications</small></span></label></li>
-      <li><label><input type="checkbox" data-k="b"><span>Connect one device you already own<small>A smart plug or the TV proves the pipeline end to end</small></span></label></li>
+      <li><label><input type="checkbox" data-k="b"><span>Connect one device you already own<small>A smart plug or the TV proves the whole chain works</small></span></label></li>
       <li><label><input type="checkbox" data-k="c"><span>Build one trivial automation<small>Sunset turns on a lamp — enough to learn the editor</small></span></label></li>
-      <li><label><input type="checkbox" data-k="d"><span>Create a second admin account<small>So a forgotten password is not a re-install</small></span></label></li>
-      <li><label><input type="checkbox" data-k="e"><span>Download a backup to your laptop<small>Off-device, not just on the X260's own disk</small></span></label></li>
-      <li><label><input type="checkbox" data-k="f"><span>Pull the mains for 30 seconds<small>Proves whether the battery really is your UPS, before you need it to be</small></span></label></li>
+      <li><label><input type="checkbox" data-k="d"><span>Create a second admin account<small>So a forgotten password isn't a re-install</small></span></label></li>
+      <li><label><input type="checkbox" data-k="e"><span>Download a backup to your other computer<small>Off the device, not just on the HP's own disk</small></span></label></li>
+      <li><label><input type="checkbox" data-k="f"><span>Pull the mains for 30 seconds<small>Tells you whether that old battery really is a UPS, before you need it to be</small></span></label></li>
       <li><label><input type="checkbox" data-k="g"><span>Decide the radio question<small>Zigbee or Thread needs a USB stick — plan it before you buy bulbs</small></span></label></li>
-      <li><label><input type="checkbox" data-k="h"><span>Check the fan after a day<small>A hub that runs hot in a corner is a hub that dies in summer</small></span></label></li>
+      <li><label><input type="checkbox" data-k="h"><span>Feel the vent after a day<small>A hub running hot in a corner is a hub that dies in summer</small></span></label></li>
     </ul>
   </section>
 
   <footer>
-    <p>Steps follow the official Home Assistant generic x86-64 installation and onboarding documentation; hardware notes reflect published ThinkPad X260 specifications. Configurations vary between X260 models — confirm your own RAM, drive and battery before ordering parts.</p>
+    <p>Steps follow the official Home Assistant generic x86-64 installation and onboarding documentation; hardware figures are from published HP 255 G4 specifications. Configurations vary between 255 G4 models — confirm your own CPU, RAM and drive before buying parts.</p>
     <ul>
       <li><a href="https://www.home-assistant.io/installation/generic-x86-64/">home-assistant.io/installation/generic-x86-64</a> — the image, UEFI and Secure Boot requirements</li>
+      <li><a href="https://github.com/home-assistant/operating-system/releases">github.com/home-assistant/operating-system/releases</a> — where the <code>.img.xz</code> file lives</li>
       <li><a href="https://www.home-assistant.io/getting-started/onboarding/">home-assistant.io/getting-started/onboarding</a> — the five onboarding screens</li>
-      <li><a href="https://psref.lenovo.com/syspool/Sys/PDF/ThinkPad/ThinkPad_X260/ThinkPad_X260_Spec.PDF">psref.lenovo.com</a> — ThinkPad X260 platform specifications</li>
-      <li><a href="https://community.home-assistant.io/t/haos-on-laptop-ignore-lid-close/934718">community.home-assistant.io</a> — the lid-close discussion, unresolved</li>
+      <li><a href="https://h10032.www1.hp.com/ctg/Manual/c04653881.pdf">HP 255 G4 Maintenance and Service Guide</a> — specifications and drive replacement</li>
     </ul>
   </footer>
 
@@ -953,7 +914,7 @@
 <script>
   (function () {
     var boxes = document.querySelectorAll('#checklist input[type="checkbox"]');
-    var KEY = 'ha-x260-checklist';
+    var KEY = 'ha-hp255g4-checklist';
     var state = {};
     try { state = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { state = {}; }
 
