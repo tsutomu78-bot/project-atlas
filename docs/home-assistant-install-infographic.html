@@ -617,8 +617,8 @@
     <div class="bench">
       <div class="box pick">
         <span class="tag">Required</span>
-        <h3>A USB stick, 8 GB+</h3>
-        <p>It becomes a temporary Ubuntu boot stick — the tool you use to write Home Assistant OS onto the laptop's own drive. Its contents get erased; you get the stick back afterwards.</p>
+        <h3>A USB stick, 8 GB minimum</h3>
+        <p>16 GB is more comfortable — the Ubuntu download is around 6 GB. It becomes a temporary boot stick: the tool you use to write Home Assistant OS onto the laptop's own drive. Its contents get erased; you get the stick back afterwards.</p>
       </div>
       <div class="box pick">
         <span class="tag">Required</span>
@@ -693,10 +693,16 @@
             installing it, just borrowing a working Linux long enough to write to the HP's disk.
           </p>
           <ol class="sub">
-            <li>Download the <b>Ubuntu Desktop</b> ISO from ubuntu.com.</li>
-            <li>Download <b>Balena Etcher</b> — it runs on Windows, Mac and Linux.</li>
-            <li>In Etcher: <b>Flash from file</b> (the Ubuntu ISO) → <b>Select target</b> (your USB stick) → <b>Flash</b>.</li>
+            <li><b>Download Ubuntu Desktop</b> from <code>ubuntu.com/download/desktop</code> — take the <b>LTS</b> version it offers. It arrives as one large <code>.iso</code> file, around 6 GB. Let it finish completely.</li>
+            <li><b>Download Balena Etcher</b> from <code>etcher.balena.io</code>. Same three clicks whether you're on Windows, Mac or Linux.</li>
+            <li><b>Plug in the stick</b> — and move anything you care about off it first.</li>
+            <li>In Etcher: <b>Flash from file</b> → the Ubuntu <code>.iso</code> → <b>Select target</b> → your USB stick → <b>Flash</b>. Check the target's size matches the stick; Etcher hides internal drives, but look anyway.</li>
+            <li><b>Let it write and verify.</b> Don't unplug during either half.</li>
           </ol>
+          <div class="note">
+            <span class="label">The popup</span>
+            <p>When it finishes, Windows will probably say “You need to format the disk before you can use it”. Click <b>Cancel</b>. Nothing has gone wrong — Windows simply can't read the Linux layout Etcher just wrote. The stick is ready to boot.</p>
+          </div>
         </div>
       </article>
 
@@ -838,6 +844,56 @@
         </div>
       </article>
 
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <p class="eyebrow">Once it's running</p>
+      <h2>Your five device types, and what each one needs</h2>
+      <p>
+        Every brand is its own integration in Home Assistant — you add them one at a time from
+        <code>Settings → Devices &amp; services</code>, and mixing brands is normal, not a problem.
+        What differs is whether a brand talks to the hub directly or bounces through its own cloud.
+      </p>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th scope="col">What you're adding</th><th scope="col">How it connects</th><th scope="col">Watch out for</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Lights</td>
+            <td>One integration per brand. The easiest wins on this list</td>
+            <td>Check each brand's integration page for “local push” — that's the ones that keep working when your internet is down</td>
+          </tr>
+          <tr>
+            <td>Camera</td>
+            <td>A camera entity you can view on a dashboard</td>
+            <td>Viewing is fine; <b>continuous recording is not</b> on this CPU. Leave recording to the vendor app or an SD card. Cameras offering a local RTSP stream behave far better here</td>
+          </tr>
+          <tr>
+            <td>Doorbell</td>
+            <td>A button-press event, plus a camera entity</td>
+            <td>The event is the valuable part — it triggers announcements and lights. Expect a lag on live video; don't judge the build by it</td>
+          </tr>
+          <tr>
+            <td>Blinds</td>
+            <td>Cover entities, with open / close / position</td>
+            <td>Position control depends on the brand exposing it. Some only offer open and close, and no integration can invent the rest</td>
+          </tr>
+          <tr>
+            <td>Thermostat</td>
+            <td>A climate entity with target temperature and modes</td>
+            <td>The most cloud-locked category. Some makers require you to register for developer API access before Home Assistant can talk to them at all</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">
+      <span class="label">No Zigbee</span>
+      <p>A fair call when you're buying across brands — but know the trade. Wi-Fi devices mostly route through their maker's cloud, so an internet outage can take your automations with it, and a discontinued app can strand a device. The escape hatch that needs no USB stick is <b>Matter over Wi-Fi</b>: devices carrying that badge are controlled locally by the hub. Worth checking for on the next thing you buy, rather than replacing anything you already have.</p>
     </div>
   </section>
 
