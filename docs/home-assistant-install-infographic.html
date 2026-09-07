@@ -694,23 +694,22 @@
           </p>
           <ol class="sub">
             <li><b>Download Ubuntu Desktop</b> from <code>ubuntu.com/download/desktop</code> — take the <b>LTS</b> version it offers. It arrives as one large <code>.iso</code> file, around 6 GB. <b>Save it to your Downloads folder</b> — right-click the link and choose <i>Save link as…</i> — and let it finish completely. Never click “Open” on the finished download.</li>
-            <li><b>Download Balena Etcher</b> from <code>etcher.balena.io</code>. Same three clicks whether you're on Windows, Mac or Linux.</li>
+            <li><b>Get the writing tool.</b> On Windows, <b>Rufus</b> from <code>rufus.ie</code> — one small <code>.exe</code>, nothing to install. On Mac or Linux, <b>Balena Etcher</b> from <code>etcher.balena.io</code>.</li>
             <li><b>Plug in the stick</b> — and move anything you care about off it first.</li>
-            <li>In Etcher: <b>Flash from file</b> → the Ubuntu <code>.iso</code> → <b>Select target</b> → your USB stick → <b>Flash</b>. Check the target's size matches the stick; Etcher hides internal drives, but look anyway.</li>
-            <li><b>Let it write and verify.</b> Don't unplug during either half.</li>
+            <li>In Rufus: <b>Device</b> → your USB stick → <b>SELECT</b> → the Ubuntu <code>.iso</code> → <b>START</b>. Take the default <i>Write in ISO Image mode</i> if it asks, then accept the warning that the stick will be erased. (In Etcher, it's <b>Flash from file</b> → <b>Select target</b> → <b>Flash</b>.) Either way, check the target size matches your stick.</li>
+            <li><b>Let it finish.</b> Don't unplug while it writes or verifies — Rufus says <b>READY</b> when it's done.</li>
           </ol>
           <div class="note">
             <span class="label">The popup</span>
             <p>When it finishes, Windows will probably say “You need to format the disk before you can use it”. Click <b>Cancel</b>. Nothing has gone wrong — Windows simply can't read the Linux layout Etcher just wrote. The stick is ready to boot.</p>
           </div>
           <div class="note">
-            <span class="label">If Etcher errors</span>
-            <p>“Error opening source” usually means the file isn't where you think it is. Look at the path in the message: if it contains <code>AppData\Local\Temp</code>, you opened the download from the browser instead of saving it, and Etcher can't read it there. Fetch the copy from <code>Downloads</code> instead — check its size is several GB, so you know it finished — or re-download it with <i>Save link as…</i>.</p>
-            <p>Opening it also <b>mounts the ISO as a virtual DVD drive</b>, which locks the file: moving it then fails with “the file is open in System”. In <b>This PC</b>, right-click the Ubuntu DVD drive that appeared and choose <b>Eject</b>, and it will move normally. Copying instead of moving usually works too.</p>
+            <span class="label">Why Rufus</span>
+            <p>Etcher on Windows commonly fails with <code>Error opening source … (0 , h.requestMetadata) is not a function</code>. That is a known, still-open Etcher bug across several versions — not a problem with your download, your path, or your permissions, and running it as administrator doesn't help. Don't spend an evening on it; Rufus writes the same stick in two minutes.</p>
           </div>
           <div class="note">
-            <span class="label">Windows fallback</span>
-            <p>If Etcher still refuses, use <b>Rufus</b> from <code>rufus.ie</code> — one small <code>.exe</code>, nothing to install, and more dependable on Windows for this job. Pick your stick under <b>Device</b>, <b>SELECT</b> the ISO, press <b>START</b>, accept <i>Write in ISO Image mode</i> if it asks, and wait for READY.</p>
+            <span class="label">Don't open the ISO</span>
+            <p>Double-clicking the downloaded file <b>mounts it as a virtual DVD drive</b>, which locks it — moving it afterwards fails with “the file is open in System”. In <b>This PC</b>, right-click the Ubuntu DVD drive that appeared and choose <b>Eject</b>. Copying instead of moving usually works too.</p>
           </div>
         </div>
       </article>
