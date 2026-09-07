@@ -706,6 +706,7 @@
           <div class="note">
             <span class="label">If Etcher errors</span>
             <p>“Error opening source” usually means the file isn't where you think it is. Look at the path in the message: if it contains <code>AppData\Local\Temp</code>, you opened the download from the browser instead of saving it, and Etcher can't read it there. Fetch the copy from <code>Downloads</code> instead — check its size is several GB, so you know it finished — or re-download it with <i>Save link as…</i>.</p>
+            <p>Opening it also <b>mounts the ISO as a virtual DVD drive</b>, which locks the file: moving it then fails with “the file is open in System”. In <b>This PC</b>, right-click the Ubuntu DVD drive that appeared and choose <b>Eject</b>, and it will move normally. Copying instead of moving usually works too.</p>
           </div>
           <div class="note">
             <span class="label">Windows fallback</span>
