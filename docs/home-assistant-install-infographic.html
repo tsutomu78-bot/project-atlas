@@ -740,9 +740,12 @@
         <div class="step-body">
           <p>
             In the live Ubuntu session, open Firefox and go to the Home Assistant OS releases page
-            on GitHub. Under the newest release, find the file for generic PCs — its name looks
-            like <code>haos_generic-x86-64-&lt;version&gt;.img.xz</code> — and right-click to copy
-            its download link.
+            on GitHub. Take the newest release <b>not</b> marked <i>Pre-release</i> — those are
+            release candidates. Scroll past the changelog to the collapsed <b>Assets</b> row, open
+            it, and find the file for generic PCs: <code>haos_generic-x86-64-&lt;version&gt;.img.xz</code>.
+            Take that exact shape — not <code>.qcow2</code>, <code>.ova</code> or <code>.raucb</code>,
+            which are for virtual machines and updates. Click it to download; it lands in
+            <code>~/Downloads</code>.
           </p>
           <p>Then open <b>Terminal</b> and run these, one line at a time:</p>
           <div class="terminal"><span class="c"># 1. list the disks — find the internal one by its size</span>
