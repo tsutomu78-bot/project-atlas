@@ -911,6 +911,58 @@
 
   <section>
     <div class="sec-head">
+      <p class="eyebrow">Wyze — a worked example</p>
+      <h2>Adding a brand Home Assistant doesn't ship support for</h2>
+      <p>
+        Wyze has no official integration; what exists is community-built on an unofficial API.
+        Getting it working means installing a community store first, then the integration, then a
+        separate add-on for the cameras. Every step below happens in your browser — the hub itself
+        is never touched again.
+      </p>
+    </div>
+
+    <div class="route">
+      <h4>Stage 1 — install HACS <span>The community store</span></h4>
+      <ol>
+        <li><b>Settings → Add-ons → Add-on Store</b>, then the ⋮ menu top-right → <b>Repositories</b>, and add <code>https://github.com/hacs/addons</code>.</li>
+        <li>Install the <b>Get HACS</b> add-on and start it. It doesn't run HACS — it just fetches it.</li>
+        <li>Open the add-on's <b>Log</b> tab and follow what it prints. When the log says to restart, do: <b>Settings → System → ⋮ → Restart</b>.</li>
+        <li><b>Settings → Devices &amp; services → Add integration → HACS.</b> It shows a device code: open <code>github.com/login/device</code>, sign in, paste the code, authorise.</li>
+      </ol>
+    </div>
+
+    <div class="route">
+      <h4>Stage 2 — bulbs, plugs, locks, sensors, thermostat <span>ha-wyzeapi</span></h4>
+      <ol>
+        <li>Get credentials at <code>developer-api-console.wyze.com</code> — free, and it gives you a <b>Key ID</b> and an <b>API Key</b>. One key per Home Assistant install is enough.</li>
+        <li>In <b>HACS</b>, open the ⋮ menu → <b>Custom repositories</b>, add <code>https://github.com/SecKatie/ha-wyzeapi</code> with type <b>Integration</b>.</li>
+        <li>Search HACS for <b>Wyze</b>, download it, and restart Home Assistant again.</li>
+        <li><b>Settings → Devices &amp; services → Add integration → Wyze</b>, and enter your Wyze email, password, Key ID and API Key.</li>
+      </ol>
+    </div>
+
+    <div class="note">
+      <span class="label">Decide this one</span>
+      <p>This integration signs in as you, and <b>it cannot log in while two-factor authentication is enabled</b> on the Wyze account. Turning 2FA off on an account that holds your cameras and locks is a real reduction in security, not a formality. If you go ahead, give that account a long unique password. If you won't turn 2FA off, the bulbs and plugs stay in the Wyze app — which is a legitimate choice.</p>
+    </div>
+
+    <div class="route">
+      <h4>Stage 3 — cameras and the doorbell <span>docker-wyze-bridge</span></h4>
+      <ol>
+        <li>Back to <b>Settings → Add-ons → Add-on Store → ⋮ → Repositories</b>, and add <code>https://github.com/mrlt8/docker-wyze-bridge</code>.</li>
+        <li>Install the bridge add-on, put the same Wyze credentials and API key in its configuration, and start it.</li>
+        <li>It republishes the camera feeds as local streams Home Assistant can display on a dashboard.</li>
+      </ol>
+    </div>
+
+    <div class="note">
+      <span class="label">Expectations</span>
+      <p>On this laptop, plan on viewing a stream or two on demand — not continuous recording, which stays in the Wyze app. And treat the whole Wyze path as community glue: it works today, Wyze can break it with a server change tomorrow, and a fix arrives when a volunteer writes one. Fine for lights and dashboards; don't put anything safety-critical on it.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
       <p class="eyebrow">When it doesn't come up</p>
       <h2>Five failures cover almost everything</h2>
     </div>
