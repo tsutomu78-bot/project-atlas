@@ -963,6 +963,46 @@
 
   <section>
     <div class="sec-head">
+      <p class="eyebrow">Track energy, then decide</p>
+      <h2>Start with your bill, add meters only where it points</h2>
+      <p>
+        Home Assistant can't see electricity by itself — it only knows what a meter tells it.
+        Work through these in order: the free one first, and buy hardware only if it shows a
+        problem you can't isolate.
+      </p>
+    </div>
+
+    <div class="route">
+      <h4>Stage 1 — your utility, free <span>Opower · PSE customers</span></h4>
+      <ol>
+        <li><b>Settings → Devices &amp; services → Add integration</b>, search <b>Opower</b>.</li>
+        <li>Choose <b>Puget Sound Energy (PSE)</b> and sign in with your PSE account login.</li>
+        <li><b>Settings → Dashboards → Energy</b>. Under <i>Electricity grid</i>, add the PSE consumption statistic.</li>
+      </ol>
+    </div>
+
+    <div class="note">
+      <span class="label">Expect</span>
+      <p>Data runs about a day behind — it's meter readings, not live wattage. Opower backfills your past billing history, so you see months of real usage straight away. If you have PSE gas, daily and hourly gas costs may show 0; monthly totals still work.</p>
+    </div>
+
+    <div class="route">
+      <h4>Stage 2 — individual devices, ~$15 each <span>Only on suspects</span></h4>
+      <ol>
+        <li>Use a plug that <b>meters</b>: TP-Link Kasa KP125M, Shelly Plug S, or Sonoff S31.</li>
+        <li>The standard indoor <b>Wyze Plug has no energy monitoring</b>. The Wyze Plug Outdoor does, but confirm in the Wyze app whether it shows live watts or only history and alerts.</li>
+        <li>Put them on the usual culprits: old fridges or freezers, a gaming PC that never sleeps, a space heater.</li>
+      </ol>
+    </div>
+
+    <div class="note">
+      <span class="label">Saving</span>
+      <p>Measuring saves nothing by itself — acting does. The real wins are usually one forgotten always-on device (often $10–30 a month), then heating and cooling schedules, which are the largest line on most bills. A realistic target is 5–15% off, concentrated in one or two discoveries.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
       <p class="eyebrow">When it doesn't come up</p>
       <h2>Five failures cover almost everything</h2>
     </div>
